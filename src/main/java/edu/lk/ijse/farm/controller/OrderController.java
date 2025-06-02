@@ -1,0 +1,355 @@
+package edu.lk.ijse.farm.controller;
+
+import edu.lk.ijse.farm.dto.CustomerDto;
+import edu.lk.ijse.farm.dto.ItemDto;
+import edu.lk.ijse.farm.dto.OrderDetailDto;
+import edu.lk.ijse.farm.dto.OrderDto;
+import edu.lk.ijse.farm.dto.tm.CartTm;
+import edu.lk.ijse.farm.model.CustomerModel;
+import edu.lk.ijse.farm.model.ItemModel;
+import edu.lk.ijse.farm.model.OrderModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+
+import java.net.URL;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+public class OrderController implements Initializable {
+
+    @FXML
+    private ComboBox<String> cmbCustomerId;
+
+    @FXML
+    private ComboBox<String> cmbItemId;
+
+    @FXML
+    private TableColumn<CartTm, Button> colAction;
+
+    @FXML
+    private TableColumn<CartTm, String> colItemId;
+
+    @FXML
+    private TableColumn<CartTm, String> colName;
+
+    @FXML
+    private TableColumn<CartTm, Double> colPrice;
+
+    @FXML
+    private TableColumn<CartTm, Integer> colQuantity;
+
+    @FXML
+    private TableColumn<CartTm, Double> colTotal;
+
+    @FXML
+    private Label lblCustomerName;
+
+    @FXML
+    private Label lblItemName;
+
+    @FXML
+    private Label lblItemPrice;
+
+    @FXML
+    private Label lblItemQty;
+
+    @FXML
+    private Label lblOrderId;
+
+    @FXML
+    private Label orderDate;
+
+    @FXML
+    private TableView<CartTm> tblCart;
+
+    @FXML
+    private TextField txtAddToCartQty;
+
+    private final OrderModel orderModel = new OrderModel();
+    private final CustomerModel customerModel = new CustomerModel();
+    private final ItemModel itemModel = new ItemModel();
+
+    private final ObservableList<CartTm> cartData = FXCollections.observableArrayList();
+
+    public OrderController() throws Exception {
+
+    }
+
+    @FXML
+    void btnAddToCartOnAction(ActionEvent event) {
+        try {
+            String selectedItemId = cmbItemId.getValue();
+            String cartQtyString = txtAddToCartQty.getText();
+
+            if (selectedItemId == null) {
+                showAlert(Alert.AlertType.WARNING, "Please select an item");
+                return;
+            }
+
+            if (!cartQtyString.matches("^[0-9]+$") || cartQtyString.isEmpty()) {
+                showAlert(Alert.AlertType.WARNING, "Please enter valid quantity");
+                return;
+            }
+
+            int cartQty = Integer.parseInt(cartQtyString);
+            int currentAvailableQty = Integer.parseInt(lblItemQty.getText());
+            String itemName = lblItemName.getText();
+            double unitPrice = Double.parseDouble(lblItemPrice.getText());
+            double total = unitPrice * cartQty;
+
+            if (cartQty <= 0) {
+                showAlert(Alert.AlertType.WARNING, "Quantity must be positive");
+                return;
+            }
+
+            for (CartTm existingItem : cartData) {
+                if (existingItem.getItemId().equals(selectedItemId)) {
+                    int newQty = existingItem.getCartQty() + cartQty;
+                    int originalStock = currentAvailableQty + existingItem.getCartQty();
+
+                    if (newQty > originalStock) {
+                        showAlert(Alert.AlertType.WARNING,
+                                "Cannot add more than available stock. Available: " +
+                                        (originalStock - existingItem.getCartQty()));
+                        return;
+                    }
+
+                    existingItem.setCartQty(newQty);
+                    existingItem.setTotal(newQty * unitPrice);
+                    lblItemQty.setText(String.valueOf(originalStock - newQty));
+                    txtAddToCartQty.clear();
+                    tblCart.refresh();
+                    return;
+                }
+            }
+
+            // For new items
+            if (cartQty > currentAvailableQty) {
+                showAlert(Alert.AlertType.WARNING,
+                        "Not enough quantity! Available: " + currentAvailableQty);
+                return;
+            }
+
+            Button removeBtn = new Button("Remove");
+            CartTm newItem = new CartTm(
+                    selectedItemId,
+                    itemName,
+                    cartQty,
+                    unitPrice,
+                    total,
+                    removeBtn
+            );
+
+            removeBtn.setOnAction(eventRemove -> {
+                int currentStock = Integer.parseInt(lblItemQty.getText());
+                lblItemQty.setText(String.valueOf(currentStock + newItem.getCartQty()));
+                cartData.remove(newItem);
+                tblCart.refresh();
+            });
+
+            lblItemQty.setText(String.valueOf(currentAvailableQty - cartQty));
+            cartData.add(newItem);
+            txtAddToCartQty.clear();
+            tblCart.refresh();
+
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Invalid input for quantity or price.");
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "An unexpected error occurred: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void btnPlaceOrderOnAction(ActionEvent event) {
+        try {
+            if (tblCart.getItems().isEmpty()) {
+                showAlert(
+                        Alert.AlertType.WARNING,
+                        "Please add items to cart..!"
+                );
+                return;
+            }
+
+            if (cmbCustomerId.getValue() == null || cmbCustomerId.getValue().isEmpty()) {
+                showAlert(
+                        Alert.AlertType.WARNING,
+                        "Please select customer for place order..!"
+                );
+                return;
+            }
+
+            String selectedCustomerId = cmbCustomerId.getValue();
+            String orderId = lblOrderId.getText();
+            Date date = Date.valueOf(orderDate.getText());
+
+            ArrayList<OrderDetailDto> cartList = new ArrayList<>();
+
+            for (CartTm cartTM : cartData) {
+                OrderDetailDto orderDetailsDTO = new OrderDetailDto(
+                        orderId,
+                        selectedCustomerId,
+                        cartTM.getItemId(),
+                        cartTM.getUnitPrice(),
+                        cartTM.getCartQty(),
+                        cartTM.getTotal()
+                );
+                cartList.add(orderDetailsDTO);
+            }
+
+            OrderDto orderDTO = new OrderDto(
+                    orderId,
+                    selectedCustomerId,
+                    date.toString(),
+                    cartList.stream().mapToDouble(OrderDetailDto::getTotalPrice).sum(),
+                    "Pending",
+                    cartList
+            );
+
+            boolean isPlaced = orderModel.placeOrder(orderDTO);
+
+            if (isPlaced) {
+                resetPage();
+                showAlert(Alert.AlertType.CONFIRMATION, "Order placed successfully..!");
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Fail to place order..!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Database error: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            showAlert(Alert.AlertType.ERROR, "Class not found error: " + e.getMessage());
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "An unexpected error occurred: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void btnResetOnAction(ActionEvent event) {
+        try {
+            resetPage();
+            cartData.clear();
+            tblCart.refresh();
+            lblCustomerName.setText("");
+            lblItemName.setText("");
+            lblItemPrice.setText("");
+            lblItemQty.setText("");
+            txtAddToCartQty.clear();
+            cmbCustomerId.setValue(null);
+            cmbItemId.setValue(null);
+        } catch (SQLException | ClassNotFoundException e) {
+            showAlert(Alert.AlertType.ERROR, "Error resetting page: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void cmbCustomerOnAction(ActionEvent event) {
+        try {
+            String selectedCustomerId = cmbCustomerId.getSelectionModel().getSelectedItem();
+            if (selectedCustomerId != null) {
+                String name = customerModel.findNameById(selectedCustomerId);
+                lblCustomerName.setText(name);
+            } else {
+                lblCustomerName.setText("");
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            showAlert(Alert.AlertType.ERROR, "Error loading customer name: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void cmbItemOnAction(ActionEvent event) {
+        try {
+            String selectedItemId = cmbItemId.getSelectionModel().getSelectedItem();
+            if (selectedItemId != null) {
+                ItemDto itemDto = itemModel.findById(selectedItemId);
+
+                if (itemDto != null) {
+                    lblItemName.setText(itemDto.getItemName());
+                    lblItemQty.setText(String.valueOf(itemDto.getQtyOnHand()));
+                    lblItemPrice.setText(String.valueOf(itemDto.getUnitPrice()));
+                } else {
+                    lblItemName.setText("");
+                    lblItemQty.setText("");
+                    lblItemPrice.setText("");
+                }
+            } else {
+                lblItemName.setText("");
+                lblItemQty.setText("");
+                lblItemPrice.setText("");
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            showAlert(Alert.AlertType.ERROR, "Error loading item details: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        colItemId.setCellValueFactory(new PropertyValueFactory<>("itemId"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        colQuantity.setCellValueFactory(new PropertyValueFactory<>("cartQty"));
+        colPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
+        colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+        colAction.setCellValueFactory(new PropertyValueFactory<>("btnRemove"));
+
+        tblCart.setItems(cartData);
+
+        try {
+            resetPage();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            showAlert(
+                    Alert.AlertType.ERROR,
+                    "Failed to load data from the database! Please try again later."
+            );
+        }
+    }
+
+    public void resetPage() throws SQLException, ClassNotFoundException {
+        lblOrderId.setText(orderModel.getNextOrderId());
+        orderDate.setText(LocalDate.now().toString());
+        loadCustomerIds();
+        loadItemIds();
+    }
+
+    private void loadCustomerIds() throws SQLException, ClassNotFoundException {
+        ArrayList<String> customerIdList = customerModel.getAllCustomerIds();
+        ObservableList<String> customerIds = FXCollections.observableArrayList(customerIdList);
+        cmbCustomerId.setItems(customerIds);
+    }
+
+    private void loadItemIds() throws SQLException, ClassNotFoundException {
+        ArrayList<String> itemIdsList = itemModel.getAllItemIds();
+        ObservableList<String> itemIds = FXCollections.observableArrayList(itemIdsList);
+        cmbItemId.setItems(itemIds);
+    }
+
+    private void showAlert(Alert.AlertType type, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(type.toString());
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        // Get the current window of the controller
+        Window ownerWindow = txtAddToCartQty.getScene().getWindow();
+        if (ownerWindow != null && ownerWindow.isShowing()) {
+            alert.initOwner(ownerWindow);
+        }
+
+        alert.showAndWait();
+    }
+}

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.lk.ijse.farm.controller.FertilizerController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #d2dae2;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="208.0" layoutY="22.0" text="Manage Fertilizer">
+               <font>
+                  <Font name="System Bold" size="23.0" />
+               </font>
+            </Label>
+            <HBox layoutX="50.0" layoutY="70.0" prefHeight="40.0" prefWidth="484.0" spacing="60.0">
+               <children>
+                  <Label text="Fertilizer Id" />
+                  <TextField fx:id="txtId" prefHeight="26.0" prefWidth="285.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="50.0" layoutY="200.0" prefHeight="40.0" prefWidth="472.0" spacing="70.0">
+               <children>
+                  <Label text="Quantity" />
+                  <TextField fx:id="txtQuantity" prefHeight="26.0" prefWidth="298.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="50.0" layoutY="150.0" prefHeight="40.0" prefWidth="472.0" spacing="56.0">
+               <children>
+                  <Label text="Expire Date" />
+                  <TextField fx:id="txtDate" prefHeight="26.0" prefWidth="292.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="50.0" layoutY="110.0" prefHeight="40.0" prefWidth="472.0" spacing="37.0">
+               <children>
+                  <Label text="Fertilizer Name" />
+                  <TextField fx:id="txtName" prefHeight="26.0" prefWidth="288.0" />
+               </children>
+            </HBox>
+            <TableView layoutX="91.0" layoutY="283.0" prefHeight="157.0" prefWidth="342.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="Fertilizer Id" />
+                <TableColumn prefWidth="104.0" text="Fertilizer Name" />
+                  <TableColumn prefWidth="94.0" text="Expire_Date" />
+                  <TableColumn prefWidth="68.0" text="Quantity " />
+              </columns>
+            </TableView>
+            <Button layoutX="455.0" layoutY="240.0" mnemonicParsing="false" onAction="#btnAddfertilizerOnAction" text="Add" />
+            <Button layoutX="354.0" layoutY="241.0" mnemonicParsing="false" onAction="#btnUpdatefertilizerOnAction" text="Update" />
+            <Button layoutX="273.0" layoutY="241.0" mnemonicParsing="false" onAction="#btnDeletefertilizerOnAction" text="Delete" />
+            <Button layoutX="181.0" layoutY="242.0" mnemonicParsing="false" onAction="#btnSearchfertilizerOnAction" text="Search" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
