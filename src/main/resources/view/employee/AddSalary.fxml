@@ -41,7 +41,7 @@
                   <TextField fx:id="txtSalary" promptText="RS.3500.00" />
                </children>
             </HBox>
-            <TableView fx:id="tblSalary" layoutX="532.0" layoutY="155.0" prefHeight="328.0" prefWidth="497.0" style="-fx-background-color: #d2dae2;">
+            <TableView fx:id="tblSalary" layoutX="532.0" layoutY="155.0" onMouseClicked="#onClickTable" prefHeight="328.0" prefWidth="497.0" style="-fx-background-color: #d2dae2;">
               <columns>
                 <TableColumn fx:id="tblPosition" prefWidth="247.0" text="Position" />
                 <TableColumn fx:id="tblDailySalary" prefWidth="249.0" text="Daily Salary" />

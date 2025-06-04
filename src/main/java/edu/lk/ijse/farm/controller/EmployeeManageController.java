@@ -140,7 +140,7 @@ public class EmployeeManageController implements Initializable {
             try {
                 String result = employeeModel.updateEmployee(employeeDto);
                 boolean isUpdated = result != null && result.equalsIgnoreCase("Employee updated successfully");
-                if (isUpdated) {
+                if (!isUpdated) {
                     resetPage();
                     loadNextId();  
                     loadTableData();  

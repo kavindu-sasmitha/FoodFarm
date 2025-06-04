@@ -126,7 +126,7 @@ public class ItemController implements Initializable {
             try{
                 String itemId=lblId.getText();
                 boolean isDeleted = Boolean.parseBoolean(itemModel.deleteItems(itemId));
-                if(isDeleted){
+                if(!isDeleted){
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION,"Item Deleted").show();
                 }else{
@@ -154,7 +154,7 @@ public class ItemController implements Initializable {
 
             try {
                 boolean isUpdated = Boolean.parseBoolean(itemModel.updateItem(itemDto));
-                if (isUpdated) {
+                if (!isUpdated) {
                     resetPage();
                     showSuccess("Item Updated", "Item details have been updated successfully!");
                 } else {

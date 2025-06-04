@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane prefHeight="832.0" prefWidth="1114.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.lk.ijse.farm.controller.OrderController">
     <stylesheets>
@@ -50,35 +60,50 @@
                         <columnConstraints>
                             <ColumnConstraints hgrow="NEVER" minWidth="120.0" prefWidth="120.0" />
                             <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
+                            <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+                            <ColumnConstraints hgrow="NEVER" minWidth="80.0" prefWidth="80.0" />
                             <ColumnConstraints hgrow="NEVER" minWidth="20.0" />
                             <ColumnConstraints hgrow="NEVER" minWidth="120.0" prefWidth="120.0" />
                             <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
                         </columnConstraints>
                         <children>
-                            <!-- Customer ID -->
-                            <Label text="Customer ID:" textFill="#455a64" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <!-- Customer Contact -->
+                            <Label text="Customer Contact" textFill="#455a64" GridPane.columnIndex="0" GridPane.rowIndex="0">
                                 <font>
                                     <Font name="Segoe UI Semibold" size="13.0" />
                                 </font>
                             </Label>
-                            <ComboBox fx:id="cmbCustomerId" onAction="#cmbCustomerOnAction" style="-fx-background-radius: 4; -fx-padding: 5 10;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                            <HBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <children>
+                                    <TextField fx:id="txtCustomerContact" promptText="Enter customer contact" style="-fx-background-radius: 4; -fx-padding: 5 10;" HBox.hgrow="ALWAYS" />
+                                    <Button mnemonicParsing="false" onAction="#btnSearchOnAction" style="-fx-background-color: #2196f3; -fx-background-radius: 4; -fx-cursor: hand; -fx-padding: 5 10;" text="Search" textFill="WHITE">
+                                        <font>
+                                            <Font name="Segoe UI Semibold" size="12.0" />
+                                        </font>
+                                    </Button>
+                                </children>
+                            </HBox>
 
                             <!-- Customer Name -->
-                            <Label text="Customer Name:" textFill="#455a64" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                            <Label text="Customer Name:" textFill="#455a64" GridPane.columnIndex="5" GridPane.rowIndex="0">
                                 <font>
                                     <Font name="Segoe UI Semibold" size="13.0" />
                                 </font>
                             </Label>
-                            <Label fx:id="lblCustomerName" text="Not selected" textFill="#2d3748" GridPane.columnIndex="4" GridPane.rowIndex="0">
+                            <Label fx:id="lblCustomerName" text="Not selected" textFill="#2d3748" GridPane.columnIndex="6" GridPane.rowIndex="0">
                                 <font>
                                     <Font name="Segoe UI" size="13.0" />
                                 </font>
                             </Label>
                         </children>
+                        <rowConstraints>
+                            <RowConstraints />
+                        </rowConstraints>
                     </GridPane>
                 </children>
             </VBox>
 
+            <!-- Rest of the content remains exactly the same -->
             <!-- Item Selection Section -->
             <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 15;">
                 <children>
@@ -159,6 +184,11 @@
                                 </GridPane.margin>
                             </Button>
                         </children>
+                        <rowConstraints>
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                        </rowConstraints>
                     </GridPane>
                 </children>
             </VBox>

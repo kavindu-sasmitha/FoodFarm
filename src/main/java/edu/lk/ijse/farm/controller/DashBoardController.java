@@ -1,106 +1,4 @@
-//package edu.lk.ijse.farm.controller;
-//
-//import javafx.event.ActionEvent;
-//import javafx.fxml.FXML;
-//import javafx.fxml.FXMLLoader;
-//import javafx.scene.Parent;
-//import javafx.scene.control.*;
-//import javafx.scene.layout.AnchorPane;
-//
-//import java.io.IOException;
-//import java.time.LocalDate;
-//import java.time.LocalDateTime;
-//import java.time.LocalTime;
-//
-//public class DashBoardController {
-//
-//    public TableView tblOrdrDetails;
-//    public TableColumn colorderId;
-//    public TableColumn colCustomerID;
-//    public TableColumn coltemId;
-//    public TableColumn colPriceOfOneKG;
-//    public TableColumn colQuentity;
-//    public TableColumn colTotal;
-//    public Label lbDateTime;
-//    public Label lbTime;
-//    @FXML
-//    private AnchorPane ancMainContainer;
-//
-//    @FXML
-//    private AnchorPane ancPage1;
-//
-//    @FXML
-//    private DatePicker datePicker;
-//
-//    // Helper method to load new views into a specific container
-
-//    @FXML
-//    void btnCustomerViewOnAction(ActionEvent event) {
-//        loadView("/view/customer/CustomerView.fxml", ancMainContainer);
-//    }
-//
-//    @FXML
-//    void btnDashBoardOnAction(ActionEvent event) {
-//        loadView("/view/dashboard/DashBoard.fxml", ancMainContainer);
-//    }
-//
-//    @FXML
-//    void btnEmployeeOnAction(ActionEvent event) {
-//        loadView("/view/employee/EmployeeDashboard.fxml", ancMainContainer);
-//    }
-//
-//    @FXML
-//    void btnHarvestViewOnAction(ActionEvent event) {
-//        loadView("/view/harvest/HarvestView.fxml", ancMainContainer);
-//    }
-//
-//    @FXML
-//    void btnInventoryOnAction(ActionEvent event) {
-//        loadView("/view/inventory/InventoryView.fxml", ancMainContainer);
-//    }
-//
-//    @FXML
-//    void btnItemViewOnAction(ActionEvent event) {
-//        loadView("/view/inventory/ItemView.fxml", ancMainContainer);
-//    }
-//
-//    @FXML
-//    void btnLogOutOnAction(ActionEvent event) {
-//
-//        loadView("/view/auth/LogOutView.fxml", ancPage1);
-//    }
-//
-//    @FXML
-//    void btnOrderViewOnAction(ActionEvent event) {
-//        loadView("/view/order/OrderView.fxml", ancMainContainer);
-//    }
-//
-//    @FXML
-//    void btnPlantOnAction(ActionEvent event) {
-//        loadView("/view/plant/AddPlant.fxml", ancMainContainer);
-//    }
-//
-//    @FXML
-//    void btnReportOnAction(ActionEvent event) {
-//        loadView("/view/report/ReportView.fxml", ancMainContainer);
-//    }
-//
-//    @FXML
-//    void btnScheduleOnAction(ActionEvent event) {
-//        loadView("/view/schedule/ScheduleView.fxml",ancMainContainer);
-//    }
-//
-//    @FXML
-//    void btnSupplierOnAction(ActionEvent event) {
-//        loadView("/view/supplier/SupplierView.fxml",ancMainContainer);
-//    }
-//
-//
-//
-//}
-
 package edu.lk.ijse.farm.controller;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -111,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;

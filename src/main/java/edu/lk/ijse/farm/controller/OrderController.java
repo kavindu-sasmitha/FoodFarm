@@ -26,8 +26,8 @@ import java.util.ResourceBundle;
 
 public class OrderController implements Initializable {
 
-    @FXML
-    private ComboBox<String> cmbCustomerId;
+    public TextField txtCustomerContact;
+    
 
     @FXML
     private ComboBox<String> cmbItemId;
@@ -179,7 +179,7 @@ public class OrderController implements Initializable {
                 return;
             }
 
-            if (cmbCustomerId.getValue() == null || cmbCustomerId.getValue().isEmpty()) {
+            if (txtCustomerContact.getText() == null || txtCustomerContact.getText().isEmpty()) {
                 showAlert(
                         Alert.AlertType.WARNING,
                         "Please select customer for place order..!"
@@ -187,7 +187,7 @@ public class OrderController implements Initializable {
                 return;
             }
 
-            String selectedCustomerId = cmbCustomerId.getValue();
+            String selectedCustomerId = txtCustomerContact.getText();
             String orderId = lblOrderId.getText();
             Date date = Date.valueOf(orderDate.getText());
 
@@ -218,7 +218,7 @@ public class OrderController implements Initializable {
 
             if (isPlaced) {
                 resetPage();
-                showAlert(Alert.AlertType.CONFIRMATION, "Order placed successfully..!");
+                showAlert(Alert.AlertType.INFORMATION, "Order placed successfully..!");
             } else {
                 showAlert(Alert.AlertType.ERROR, "Fail to place order..!");
             }
@@ -244,7 +244,7 @@ public class OrderController implements Initializable {
             lblItemPrice.setText("");
             lblItemQty.setText("");
             txtAddToCartQty.clear();
-            cmbCustomerId.setValue(null);
+            txtCustomerContact.getText();
             cmbItemId.setValue(null);
         } catch (SQLException | ClassNotFoundException e) {
             showAlert(Alert.AlertType.ERROR, "Error resetting page: " + e.getMessage());
@@ -255,9 +255,9 @@ public class OrderController implements Initializable {
     @FXML
     void cmbCustomerOnAction(ActionEvent event) {
         try {
-            String selectedCustomerId = cmbCustomerId.getSelectionModel().getSelectedItem();
-            if (selectedCustomerId != null) {
-                String name = customerModel.findNameById(selectedCustomerId);
+            String selectedCustomerContact = txtCustomerContact.getText();
+            if (selectedCustomerContact != null) {
+                String name = customerModel.findNameByContact(selectedCustomerContact);
                 lblCustomerName.setText(name);
             } else {
                 lblCustomerName.setText("");
@@ -320,15 +320,15 @@ public class OrderController implements Initializable {
     public void resetPage() throws SQLException, ClassNotFoundException {
         lblOrderId.setText(orderModel.getNextOrderId());
         orderDate.setText(LocalDate.now().toString());
-        loadCustomerIds();
+      //  loadCustomerIds();
         loadItemIds();
     }
 
-    private void loadCustomerIds() throws SQLException, ClassNotFoundException {
-        ArrayList<String> customerIdList = customerModel.getAllCustomerIds();
-        ObservableList<String> customerIds = FXCollections.observableArrayList(customerIdList);
-        cmbCustomerId.setItems(customerIds);
-    }
+//    private void loadCustomerIds() throws SQLException, ClassNotFoundException {
+//        ArrayList<String> customerIdList = customerModel.getAllCustomerIds();
+//        ObservableList<String> customerIds = FXCollections.observableArrayList(customerIdList);
+//        txtCustomerContact.getItems().setAll(customerIds);
+//    }
 
     private void loadItemIds() throws SQLException, ClassNotFoundException {
         ArrayList<String> itemIdsList = itemModel.getAllItemIds();
@@ -348,5 +348,22 @@ public class OrderController implements Initializable {
         }
 
         alert.showAndWait();
+    }
+
+    public void btnSearchOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        String searchText = txtCustomerContact.getText();
+       try{
+           boolean isFindContact= Boolean.parseBoolean(customerModel.findNameByContact(searchText));
+           if(!isFindContact){
+               lblCustomerName.setText(customerModel.findNameByContact(searchText));
+           }else{
+              lblCustomerName.setText("New Customer");
+           }
+       }catch (Exception e){
+           showAlert(Alert.AlertType.ERROR,"Invalid Customer Contact");
+           txtCustomerContact.setText("");
+           lblCustomerName.setText("");
+           e.printStackTrace();
+       }
     }
 }

@@ -70,7 +70,7 @@ public class FrogetPasswordController {
         LoginModel loginModel = new LoginModel();
         boolean isUpdated = loginModel.updateUserPassword(txtEmail.getText(), txtNewPassword.getText());
 
-        if (isUpdated) {
+        if (!isUpdated) {
             new Alert(Alert.AlertType.INFORMATION, "Password reset successful!").showAndWait();
         } else {
             new Alert(Alert.AlertType.ERROR, "Failed to reset password! Please try again.").showAndWait();

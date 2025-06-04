@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -141,5 +142,14 @@ public class AddSalaryController implements Initializable {
 
     public void btnResetPageOnAction(ActionEvent actionEvent) {
         resetPage();
+    }
+
+    public void onClickTable(MouseEvent mouseEvent) {
+        SalaryTM selectedSalary = (SalaryTM) tblSalary.getSelectionModel().getSelectedItem();
+
+        if (selectedSalary != null) {
+            txtSalary.setText(String.valueOf(selectedSalary.getSalary()));
+            cmbBox.getSelectionModel().select(selectedSalary.getPosition());
+        }
     }
 }

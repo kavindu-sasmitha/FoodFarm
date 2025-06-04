@@ -86,13 +86,13 @@ public class CustomerModel {
                 customerDto.getCustomerId()
         ) ? "Customer updated successfully" : "Failed to update customer";
     }
-    public String deleteCustomer(String custId) throws Exception {
+    public String deleteCustomer(String Id) throws Exception {
 //        String sql="DELETE FROM Customer WHERE Customer_Id=?";
 //        PreparedStatement statement = connection.prepareStatement(sql);
-//        statement.setString(1,custId);
+//        statement.setString(1,Id);
 //        return statement.executeUpdate() > 0? "Successfully Delete":"Delete Fail";
         return CrudUtil.execute("DELETE FROM Customer WHERE Customer_Id=?",
-                custId);
+                Id)? "Successfully Delete":"Delete Fail";
     }
     public ArrayList<CustomerDto> getAllCustomers() throws Exception {
         Connection connection = DBConnection.getInstance().getConnection();
@@ -108,27 +108,6 @@ public class CustomerModel {
         }
         return customers;
     }
-    public String getNextId() throws SQLException, ClassNotFoundException {
-//        Connection connection = DBConnection.getInstance().getConnection();
-//        String sql = "select customer_id from Customer order by customer_id desc limit 1";
-//        PreparedStatement pst = connection.prepareStatement((sql));
-//
-//        ResultSet rst = pst.executeQuery();
-        ResultSet rst = CrudUtil.execute("select customer_id from Customer order by customer_id desc limit 1");
-
-        char tableChar = 'C';
-
-        if(rst.next()){
-            String lastId = rst.getString(1);
-            String lastIdNumberString = lastId.substring(1);
-            int lastIdNumber = Integer.parseInt(lastIdNumberString);
-            int nextIdNumber = lastIdNumber + 1;
-            String nextIdString = String.format(tableChar + "%03d", nextIdNumber);
-            return nextIdString;
-
-        }
-        return "C001";
-    }
 
     public ArrayList<String> getAllCustomerIds() throws SQLException, ClassNotFoundException {
         ResultSet rst=CrudUtil.execute("select Customer_Id from Customer");
@@ -140,16 +119,13 @@ public class CustomerModel {
         return list;
     }
 
-    public String findNameById(String selectedCustomerId) throws SQLException, ClassNotFoundException {
+    public String findNameByContact(String selectedCustomerContact) throws SQLException, ClassNotFoundException {
+        //System.out.println("hiContact");
         ResultSet rst = CrudUtil.execute(
-                "select Customer_Name from Customer where Customer_Id = ?",
-                selectedCustomerId
-        );
-        if (rst.next()) {
-            return rst.getString("Customer_Name");
-        }else {
-            return null;
-        }
 
+                "SELECT Customer_Name FROM Customer WHERE Contact_Number=?",
+                selectedCustomerContact
+        );
+        return rst.next() ? rst.getString("Customer_Name") : "No customer found for the provided contact number.";
     }
 }

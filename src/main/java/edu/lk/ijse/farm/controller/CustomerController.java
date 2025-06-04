@@ -104,9 +104,10 @@ public class CustomerController implements Initializable {
             try {
                 String result = customerModel.saveCustomer(customerDto);
                 boolean isSaved = result != null && result.equalsIgnoreCase("true");
-                if (isSaved) {
+                if (!isSaved) {
                     resetPage();
                     clearInputFields();
+                    loadTableData();
                     showSuccess("Customer Saved", "Customer details have been saved successfully!");
 
                     // Highlight the saved customer in the table
@@ -191,29 +192,30 @@ public class CustomerController implements Initializable {
 
     @FXML
     public void btnDeleteOnAction(ActionEvent actionEvent) {
-      Alert alert=new Alert(Alert.AlertType.CONFIRMATION,
-              "Are You Sure",
-              ButtonType.YES,
-              ButtonType.NO);
-      Optional<ButtonType> respons=alert.showAndWait();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Are You Sure",
+                ButtonType.YES,
+                ButtonType.NO);
+        Optional<ButtonType> respons = alert.showAndWait();
 
-      if(respons.isPresent()&&respons.get()==ButtonType.YES){
-          try{
-              String customerId=lbCustomId.getText();
-          boolean isDeleted = Boolean.parseBoolean(customerModel.deleteCustomer(customerId));
-          if(isDeleted){
-              resetPage();
-             new Alert(Alert.AlertType.INFORMATION,"Customer Deleted").show();
-          }else{
-             new Alert(Alert.AlertType.ERROR,"Failed to delete customer details").show();
-          }
+        if (respons.isPresent() && respons.get() == ButtonType.YES) {
+            try {
+                String customerId = lbCustomId.getText();
+                String result = customerModel.deleteCustomer(customerId);
+                boolean isDeleted = result != null && result.equalsIgnoreCase("Successfully Delete");
+                if (isDeleted) {
+                    new Alert(Alert.AlertType.INFORMATION, "Customer Deleted").show();
+                    resetPage();
+                    loadTableData();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Failed to delete customer details").show();
+                }
 
-          }catch (Exception e){
-              e.printStackTrace();
-              showError("Error", "Failed to delete customer details.");
-          }
-
-      }
+            } catch (Exception e) {
+                e.printStackTrace();
+                showError("Error", "Failed to delete customer details.");
+            }
+        }
     }
 
     @FXML
@@ -255,6 +257,14 @@ public class CustomerController implements Initializable {
         txtAddress.clear();
         txtContact.clear();
         txtEmail.clear();
+        btnDelete.setDisable(true);
+        btnUpdate.setDisable(true);
+        btnSave.setDisable(false);
+        txtSearch.clear();
+        txtSearch.requestFocus();
+        txtSearch.selectAll();
+        tblCustomer.getSelectionModel().clearSelection();
+        tblCustomer.refresh();
     }
 
     private boolean isInputValid(String name,String contact, String email,String address) {

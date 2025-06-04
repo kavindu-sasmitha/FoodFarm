@@ -1,6 +1,5 @@
 package edu.lk.ijse.farm.model;
 
-import edu.lk.ijse.farm.dto.ItemDto;
 import edu.lk.ijse.farm.dto.OrderDetailDto;
 import edu.lk.ijse.farm.util.CrudUtil;
 
