@@ -21,7 +21,7 @@
                            </image>
                         </ImageView>
                      </graphic></Button>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#btnManageEmployeeOnAction" text="Manage Attendance">
+                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#btnManageAttendanceOnAction" text="Manage Attendance">
                      <graphic>
                         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>

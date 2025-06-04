@@ -1,6 +1,6 @@
 package edu.lk.ijse.farm.controller;
 
-import edu.lk.ijse.farm.dto.CustomerDto;
+
 import edu.lk.ijse.farm.dto.ItemDto;
 import edu.lk.ijse.farm.dto.OrderDetailDto;
 import edu.lk.ijse.farm.dto.OrderDto;
@@ -15,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.net.URL;
@@ -132,8 +131,7 @@ public class OrderController implements Initializable {
                     return;
                 }
             }
-
-            // For new items
+ // For new items
             if (cartQty > currentAvailableQty) {
                 showAlert(Alert.AlertType.WARNING,
                         "Not enough quantity! Available: " + currentAvailableQty);
@@ -344,7 +342,6 @@ public class OrderController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
 
-        // Get the current window of the controller
         Window ownerWindow = txtAddToCartQty.getScene().getWindow();
         if (ownerWindow != null && ownerWindow.isShowing()) {
             alert.initOwner(ownerWindow);

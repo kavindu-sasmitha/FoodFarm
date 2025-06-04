@@ -26,8 +26,11 @@ public class EmployeeDashBoardController {
     }
 
     @FXML
-    void btnManageSalaryOnAction(ActionEvent event) {
-
+    void btnManageSalaryOnAction(ActionEvent event) throws IOException {
+        loadView("/view/employee/AddSalary.fxml", ancPaneEmployee);
     }
 
+    public void btnManageAttendanceOnAction(ActionEvent actionEvent) {
+
+    }
 }
