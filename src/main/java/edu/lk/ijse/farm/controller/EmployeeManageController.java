@@ -140,7 +140,7 @@ public class EmployeeManageController implements Initializable {
             try {
                 String result = employeeModel.updateEmployee(employeeDto);
                 boolean isUpdated = result != null && result.equalsIgnoreCase("Employee updated successfully");
-                if (!isUpdated) {
+                if (isUpdated) {
                     resetPage();
                     loadNextId();  
                     loadTableData();  
@@ -194,7 +194,10 @@ public class EmployeeManageController implements Initializable {
         if (buttonType.get() == ButtonType.YES) {
             try {
                 String employeeId = lblId.getText();
-                boolean isDeleted = Boolean.parseBoolean(employeeModel.deleteEmployee(employeeId));
+                String result = employeeModel.deleteEmployee(employeeId);
+                boolean isDeleted = "Employee deleted successfully".equalsIgnoreCase(result);
+                loadTableData();
+                
                 if (isDeleted) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Customer Deleted").show();
@@ -333,7 +336,6 @@ public class EmployeeManageController implements Initializable {
 
 
         try {
-            // Initial setup like loading next ID or table data
             loadNextId();
             loadTableData();
         } catch (Exception e) {
