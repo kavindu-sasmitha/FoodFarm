@@ -82,13 +82,13 @@
                     </children>
                 </HBox>
 
-                <TableView prefHeight="200.0" prefWidth="600.0" style="-fx-background-color: #ffffff; -fx-border-color: #bdc3c7; -fx-border-radius: 5px;">
+                <TableView fx:id="tblFertilizerSchedule" prefHeight="200.0" prefWidth="600.0" style="-fx-background-color: #ffffff; -fx-border-color: #bdc3c7; -fx-border-radius: 5px;">
                     <columns>
-                        <TableColumn prefWidth="120.0" text="Plant Type" />
-                        <TableColumn prefWidth="160.0" text="Fertilizer Name" />
-                        <TableColumn prefWidth="180.0" text="Fertilizer Quantity Per Plant" />
-                        <TableColumn prefWidth="140.0" text="Growth Stages" />
-                        <TableColumn prefWidth="160.0" text="Note" />
+                        <TableColumn fx:id="colPlantType" prefWidth="120.0" text="Plant Type" />
+                        <TableColumn fx:id="colFertilizerName" prefWidth="160.0" text="Fertilizer Name" />
+                        <TableColumn fx:id="colFertilizerQuantityPerPlant" prefWidth="180.0" text="Fertilizer Quantity Per Plant" />
+                        <TableColumn fx:id="colGrowthStages" prefWidth="140.0" text="Growth Stages" />
+                        <TableColumn fx:id="colNote" prefWidth="160.0" text="Note" />
                     </columns>
                 </TableView>
             </children>
