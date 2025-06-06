@@ -60,16 +60,7 @@ public class EmployeeModel {
         }
         return employeeDtoList;
     }
-   
-    public List<String> getAllEmployeeIds() throws SQLException, ClassNotFoundException {
-        ResultSet rst=CrudUtil.execute("select Employee_Id from Employee");
-        List<String> list=new ArrayList<>();
-        while(rst.next()){
-            String id=rst.getString(1);
-            list.add(id);
-        }
-        return list;
-    }
+
 
     public String getNextID() throws SQLException, ClassNotFoundException {
         String sql = "select Employee.Employee_Id from Employee order by Employee_Id desc LIMIT 1";

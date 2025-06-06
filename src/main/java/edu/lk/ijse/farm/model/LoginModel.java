@@ -19,13 +19,6 @@ public class LoginModel {
         }
     }
 
-    public String saveUser(UserDto userDto) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute("INSERT INTO User VALUES(?,?,?,?)",
-                userDto.getId(),
-                userDto.getUserName(),
-                userDto.getPassword(),
-                userDto.getUserEmail());
-    }
 
     public boolean updateUserPassword(String userName, String newPassword) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getInstance().getConnection();

@@ -17,19 +17,7 @@ public class CustomerModel {
     public  CustomerModel() throws Exception{
         connection = DBConnection.getInstance().getConnection();
     }
-    public String getNextID() throws SQLException, ClassNotFoundException {
-        String sql="select Customer.Customer_Id from Customer order by Customer_Id desc LIMIT 1";
-        ResultSet resultSet=CrudUtil.execute(sql);
-        if(resultSet.next()){
-            String id=resultSet.getString(1);
-            String numericPart = id.replaceAll("[^0-9]", "");
-            int nextid = Integer.parseInt(numericPart);
-            nextid++;
-            return String.format("C"+"%03d",nextid);
-        }else {
-            return "C00-001";
-        }
-    }
+
     public String saveCustomer(CustomerDto customerDto) throws Exception {
         return CrudUtil.execute(
                 "INSERT INTO Customer (Customer_Id,Customer_Name,Contact_Number,Email,Address) VALUES (?, ?, ?, ?, ?)",
@@ -93,16 +81,6 @@ public class CustomerModel {
         return customers;
     }
 
-    public ArrayList<String> getAllCustomerIds() throws SQLException, ClassNotFoundException {
-        ResultSet rst=CrudUtil.execute("select Customer_Id from Customer");
-        ArrayList<String> list=new ArrayList<>();
-        while(rst.next()){
-           String id=rst.getString(1);
-           list.add(id);
-        }
-        return list;
-    }
-
     public String findNameByContact(String selectedCustomerContact) throws SQLException, ClassNotFoundException {
         //System.out.println("hiContact");
         ResultSet rst = CrudUtil.execute(
@@ -111,5 +89,18 @@ public class CustomerModel {
                 selectedCustomerContact
         );
         return rst.next() ? rst.getString("Customer_Name") : "No customer found for the provided contact number.";
+    }
+    public String getNextID() throws SQLException, ClassNotFoundException {
+        String sql="select Customer.Customer_Id from Customer order by Customer_Id desc LIMIT 1";
+        ResultSet resultSet=CrudUtil.execute(sql);
+        if(resultSet.next()){
+            String id=resultSet.getString(1);
+            String numericPart = id.replaceAll("[^0-9]", "");
+            int nextid = Integer.parseInt(numericPart);
+            nextid++;
+            return String.format("C"+"%03d",nextid);
+        }else {
+            return "C00-001";
+        }
     }
 }

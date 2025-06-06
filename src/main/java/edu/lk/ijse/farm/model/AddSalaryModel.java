@@ -1,7 +1,6 @@
 package edu.lk.ijse.farm.model;
 
 import edu.lk.ijse.farm.dto.AddSalaryDto;
-import edu.lk.ijse.farm.dto.CustomerDto;
 import edu.lk.ijse.farm.util.CrudUtil;
 
 import java.sql.ResultSet;
