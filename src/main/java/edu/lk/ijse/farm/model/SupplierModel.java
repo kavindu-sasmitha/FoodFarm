@@ -35,7 +35,7 @@ public class SupplierModel {
     }
 
     public List<SupplierDto> searchSupplier(String keyword) throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.execute("SELECT * FROM Supplier WHERE Supplier_Id LIKE ? OR Supplier_Name LIKE ? OR Contact_Number LIKE ? OR Address LIKE ? OR Supplier_Items LIKE ?",
+        ResultSet rst = CrudUtil.execute("SELECT * FROM Supplier WHERE Supplier_Id LIKE ? OR Supplier_Name LIKE ? OR Contact_Number LIKE ? OR Address LIKE ? OR Supplied_Items LIKE ?",
                 "%" + keyword + "%",
                 "%" + keyword + "%",
                 "%" + keyword + "%",
@@ -48,7 +48,7 @@ public class SupplierModel {
                     rst.getString("Supplier_Name"),
                     rst.getString("Contact_Number"),
                     rst.getString("Address"),
-                    rst.getString("Supplier_Items"));
+                    rst.getString("Supplied_Items"));
             supplierDtoList.add(supplierDto);
         }
         return supplierDtoList;

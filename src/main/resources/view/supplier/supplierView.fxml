@@ -52,11 +52,6 @@
                                 <Font name="Segoe UI Semibold" size="13.0" />
                             </font>
                         </Label>
-                         <Label fx:id="lbId" text="Not selected" textFill="#2d3748">
-                             <font>
-                                 <Font name="Segoe UI" size="13.0" />
-                             </font>
-                         </Label>
                         <TextField fx:id="txtSearch" promptText="Enter Supplier Id or Name" style="-fx-background-radius: 4; -fx-padding: 5 10;" HBox.hgrow="ALWAYS" />
                         <Button mnemonicParsing="false" onAction="#btnSearchSupplierOnAction" style="-fx-background-color: #4caf50; -fx-background-radius: 4; -fx-cursor: hand; -fx-padding: 8 15;" text="Search" textFill="WHITE">
                             <font>
@@ -81,10 +76,11 @@
                     <GridPane hgap="15" vgap="10">
                         <columnConstraints>
                             <ColumnConstraints hgrow="NEVER" minWidth="120.0" prefWidth="120.0" />
+                            <ColumnConstraints hgrow="NEVER" minWidth="120.0" prefWidth="120.0" />
                             <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
                             <ColumnConstraints hgrow="NEVER" minWidth="20.0" />
                             <ColumnConstraints hgrow="NEVER" minWidth="120.0" prefWidth="120.0" />
-                            <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" />
                         </columnConstraints>
                         <children>
                             <!-- Supplier ID -->
@@ -95,12 +91,12 @@
                             </Label>
 
                             <!-- Supplier Name -->
-                            <Label fx:id="lbSupplierName" text="Supplier Name:" textFill="#455a64" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                            <Label fx:id="lbSupplierName" text="Supplier Name:" textFill="#455a64" GridPane.columnIndex="4">
                                 <font>
                                     <Font name="Segoe UI Semibold" size="13.0" />
                                 </font>
                             </Label>
-                            <TextField fx:id="txtName" promptText="Lakshan PVT LTD" style="-fx-background-radius: 4; -fx-padding: 5 10;" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+                            <TextField fx:id="txtName" promptText="Lakshan PVT LTD" style="-fx-background-radius: 4; -fx-padding: 5 10;" GridPane.columnIndex="5" />
 
                             <!-- Contact Number -->
                             <Label fx:id="lbContact" text="Contact Number:" textFill="#455a64" GridPane.columnIndex="0" GridPane.rowIndex="1">
@@ -108,15 +104,15 @@
                                     <Font name="Segoe UI Semibold" size="13.0" />
                                 </font>
                             </Label>
-                            <TextField fx:id="txtContact" promptText="0772312420" style="-fx-background-radius: 4; -fx-padding: 5 10;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                            <TextField fx:id="txtContact" promptText="0772312420" style="-fx-background-radius: 4; -fx-padding: 5 10;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
 
                             <!-- Address -->
-                            <Label fx:id="lbAddress" text="Address:" textFill="#455a64" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                            <Label fx:id="lbAddress" text="Address:" textFill="#455a64" GridPane.columnIndex="4" GridPane.rowIndex="1">
                                 <font>
                                     <Font name="Segoe UI Semibold" size="13.0" />
                                 </font>
                             </Label>
-                            <TextField fx:id="txtAddress" promptText="Galle, Sri Lanka" style="-fx-background-radius: 4; -fx-padding: 5 10;" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                            <TextField fx:id="txtAddress" promptText="Galle, Sri Lanka" style="-fx-background-radius: 4; -fx-padding: 5 10;" GridPane.columnIndex="5" GridPane.rowIndex="1" />
 
                             <!-- Supplier Item -->
                             <Label fx:id="lbSupplierItem" text="Supplier Item:" textFill="#455a64" GridPane.columnIndex="0" GridPane.rowIndex="2">
@@ -124,7 +120,12 @@
                                     <Font name="Segoe UI Semibold" size="13.0" />
                                 </font>
                             </Label>
-                            <TextField fx:id="txtItem" promptText="Fertilizer" style="-fx-background-radius: 4; -fx-padding: 5 10;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            <TextField fx:id="txtItem" promptText="Fertilizer" style="-fx-background-radius: 4; -fx-padding: 5 10;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                            <Label fx:id="lbId" text="Not selected" textFill="#2d3748" GridPane.columnIndex="1">
+                                <font>
+                                    <Font name="Segoe UI" size="13.0" />
+                                </font>
+                            </Label>
                         </children>
                   <rowConstraints>
                      <RowConstraints />

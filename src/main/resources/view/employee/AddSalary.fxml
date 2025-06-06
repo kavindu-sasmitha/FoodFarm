@@ -47,9 +47,8 @@
                 <TableColumn fx:id="tblDailySalary" prefWidth="249.0" text="Daily Salary" />
               </columns>
             </TableView>
-            <Button layoutX="441.0" layoutY="385.0" mnemonicParsing="false" onAction="#btnSalaryAddOnAction" style="-fx-background-color: #0fbcf9;" text="ADD" textFill="#1e0404" />
-            <Button layoutX="346.0" layoutY="385.0" mnemonicParsing="false" onAction="#btnSalaryUpddateOnAction" style="-fx-background-color: #34e7e4;" text="Update" textFill="#170202" />
-            <Button layoutX="259.0" layoutY="385.0" mnemonicParsing="false" onAction="#btnSalaryDeleteOnAction" style="-fx-background-color: #f53b57;" text="Delete" textFill="#fffafa" />
+            <Button layoutX="354.0" layoutY="385.0" mnemonicParsing="false" onAction="#btnSalaryAddOnAction" style="-fx-background-color: #0fbcf9;" text="ADD" textFill="#1e0404" />
+            <Button layoutX="274.0" layoutY="385.0" mnemonicParsing="false" onAction="#btnSalaryDeleteOnAction" style="-fx-background-color: #f53b57;" text="Delete" textFill="#fffafa" />
             <Button layoutX="194.0" layoutY="385.0" mnemonicParsing="false" onAction="#btnResetPageOnAction" style="-fx-background-color: #0fbcf9;" text="Reset" textFill="#1e0404" />
          </children>
       </AnchorPane>

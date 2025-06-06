@@ -31,18 +31,6 @@ public class CustomerModel {
         }
     }
     public String saveCustomer(CustomerDto customerDto) throws Exception {
-        //        Connection connection = DBConnection.getInstance().getConnection();
-//        String sql = "INSERT INTO Customer VALUES (?,?,?,?)";
-//        PreparedStatement pst = connection.prepareStatement(sql);
-//
-//        pst.setString(1, customerDto.getCustomerId());
-//        pst.setString(2, customerDto.getName());
-//        pst.setString(3, customerDto.getAddress());
-//        pst.setString(4,customerDto.getContact());
-//
-//        int i = pst.executeUpdate();
-//        boolean isSave = i > 0;
-//        return isSave;
         return CrudUtil.execute(
                 "INSERT INTO Customer (Customer_Id,Customer_Name,Contact_Number,Email,Address) VALUES (?, ?, ?, ?, ?)",
                 customerDto.getCustomerId(),
@@ -87,10 +75,6 @@ public class CustomerModel {
         ) ? "Customer updated successfully" : "Failed to update customer";
     }
     public String deleteCustomer(String Id) throws Exception {
-//        String sql="DELETE FROM Customer WHERE Customer_Id=?";
-//        PreparedStatement statement = connection.prepareStatement(sql);
-//        statement.setString(1,Id);
-//        return statement.executeUpdate() > 0? "Successfully Delete":"Delete Fail";
         return CrudUtil.execute("DELETE FROM Customer WHERE Customer_Id=?",
                 Id)? "Successfully Delete":"Delete Fail";
     }

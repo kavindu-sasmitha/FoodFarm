@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="832.0" prefWidth="1114.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.lk.ijse.farm.controller.OrderDetailsController">
+    <children>
+        <VBox spacing="20" style="-fx-background-color: #f8f9fa; -fx-padding: 20;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <!-- Header Section -->
+            <HBox alignment="CENTER_LEFT" style="-fx-background-color: #3f51b5; -fx-background-radius: 5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3); -fx-padding: 15 20;">
+                <children>
+                    <Label text="ORDER DETAILS MANAGEMENT" textFill="WHITE">
+                        <font>
+                            <Font name="Segoe UI Semibold" size="20.0" />
+                        </font>
+                    </Label>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="lbId" style="-fx-text-fill: #ffeb3b;">
+                        <font>
+                            <Font name="Consolas Bold" size="14.0" />
+                        </font>
+                    </Label>
+                </children>
+            </HBox>
+
+            <!-- Order Details Table Section -->
+            <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);" VBox.vgrow="ALWAYS">
+                <children>
+                    <HBox alignment="CENTER_LEFT" style="-fx-border-color: #e0e0e0; -fx-border-width: 0 0 1 0; -fx-padding: 15;">
+                        <children>
+                            <Label text="ORDER DETAILS INVENTORY" textFill="#3f51b5">
+                                <font>
+                                    <Font name="Segoe UI Semibold" size="14.0" />
+                                </font>
+                            </Label>
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label text="Total Orders: 125" textFill="#455a64">
+                                <font>
+                                    <Font name="Segoe UI" size="13.0" />
+                                </font>
+                            </Label>
+                        </children>
+                    </HBox>
+
+                    <TableView fx:id="tblOrderDetails" style="-fx-background-color: transparent;">
+                        <columns>
+                            <TableColumn fx:id="colOrderId" style="-fx-alignment: CENTER; -fx-font-family: 'Segoe UI'; -fx-font-size: 12;" text="ORDER ID" />
+                            <TableColumn fx:id="colCustomerId" style="-fx-alignment: CENTER; -fx-font-family: 'Segoe UI'; -fx-font-size: 12;" text="CUSTOMER ID" />
+                            <TableColumn fx:id="colItemId" style="-fx-alignment: CENTER; -fx-font-family: 'Segoe UI'; -fx-font-size: 12;" text="ITEM ID" />
+                            <TableColumn fx:id="colPriceOf1KG" style="-fx-alignment: CENTER; -fx-font-family: 'Segoe UI'; -fx-font-size: 12;" text="PRICE OF 1KG" />
+                            <TableColumn fx:id="colQuantity" style="-fx-alignment: CENTER; -fx-font-family: 'Segoe UI'; -fx-font-size: 12;" text="QUANTITY" />
+                            <TableColumn fx:id="colTotalPrice" style="-fx-alignment: CENTER; -fx-font-family: 'Segoe UI'; -fx-font-size: 12;" text="TOTAL PRICE" />
+                        </columns>
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+                    </TableView>
+                </children>
+            </VBox>
+        </VBox>
+    </children>
+</AnchorPane>

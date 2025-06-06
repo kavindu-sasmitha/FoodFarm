@@ -87,7 +87,7 @@ public class DashBoardController {
         lbTime.setText(LocalTime.now().withNano(0).toString());
     }
 
-    // Method to show an alert in case of errors
+
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -115,12 +115,6 @@ public class DashBoardController {
     }
 
     @FXML
-    void btnInventoryOnAction(ActionEvent event) {
-        loadView("/view/inventory/InventoryView.fxml", ancMainContainer);
-
-    }
-
-    @FXML
     void btnItemViewOnAction(ActionEvent event) {
         loadView("/view/inventory/ItemView.fxml", ancMainContainer);
 
@@ -144,15 +138,12 @@ public class DashBoardController {
     }
 
     @FXML
-    void btnScheduleOnAction(ActionEvent event) {
-        loadView("/view/schedule/ScheduleView.fxml",ancMainContainer);
-
-    }
-
-    @FXML
     void btnSupplierOnAction(ActionEvent event) {
         loadView("/view/supplier/SupplierView.fxml",ancMainContainer);
 
     }
 
+    public void btnOrderDetailsOnAction(ActionEvent actionEvent) {
+        loadView("/view/order/OrderDetailsView.fxml",ancMainContainer);
+    }
 }

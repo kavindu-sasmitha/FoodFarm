@@ -1,17 +1,12 @@
 package edu.lk.ijse.farm.model;
 
-import edu.lk.ijse.farm.db.DBConnection;
 import edu.lk.ijse.farm.dto.ItemDto;
 import edu.lk.ijse.farm.dto.OrderDetailDto;
 import edu.lk.ijse.farm.util.CrudUtil;
 
-import javax.crypto.spec.PSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ItemModel {
     public String saveItem(ItemDto itemDto) throws SQLException, ClassNotFoundException {

@@ -1,8 +1,6 @@
 package edu.lk.ijse.farm.controller;
 
 import edu.lk.ijse.farm.dto.AddSalaryDto;
-import edu.lk.ijse.farm.dto.CustomerDto;
-import edu.lk.ijse.farm.dto.tm.CustomerTM;
 import edu.lk.ijse.farm.dto.tm.SalaryTM;
 import edu.lk.ijse.farm.model.AddSalaryModel;
 import javafx.collections.FXCollections;
@@ -17,36 +15,32 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AddSalaryController implements Initializable {
 
-    public ComboBox cmbBox;
-    public TableView tblSalary;
+    public ComboBox<String> cmbBox;
+    public TableView<SalaryTM> tblSalary;
     @FXML
     private Label lbPosition;
-
     @FXML
     private Label lbSsalary;
-
     @FXML
     private TableColumn<SalaryTM, Double> tblDailySalary;
-
     @FXML
     private TableColumn<SalaryTM, String> tblPosition;
-
     @FXML
     private TextField txtPosition;
-
     @FXML
     private TextField txtSalary;
 
     @FXML
-    AddSalaryModel addSalaryModel = new AddSalaryModel();
+    private AddSalaryModel addSalaryModel = new AddSalaryModel();
 
     @FXML
     void btnSalaryAddOnAction(ActionEvent event) {
-        String selectedPosition = (String) cmbBox.getValue();
+        String selectedPosition = cmbBox.getValue();
 
         if (selectedPosition != null && !txtSalary.getText().isEmpty()) {
             try {
@@ -54,90 +48,94 @@ public class AddSalaryController implements Initializable {
                 AddSalaryDto addSalaryDto = new AddSalaryDto(selectedPosition, salary);
                 String result = addSalaryModel.addSalary(addSalaryDto);
                 System.out.println(result);
+                loadTableData();
+                clearInputFields();
             } catch (NumberFormatException e) {
-                System.out.println("Invalid salary input. Please enter a valid number.");
+                new Alert(Alert.AlertType.ERROR, "Invalid salary input. Please enter a valid number.").show();
             } catch (ClassNotFoundException | SQLException e) {
-                System.out.println("Error occurred while adding salary: " + e.getMessage());
+                new Alert(Alert.AlertType.ERROR, "Error occurred while adding salary: " + e.getMessage()).show();
             }
         } else {
-            System.out.println("Please select a position and enter a valid salary.");
+            new Alert(Alert.AlertType.WARNING, "Please select a position and enter a valid salary.").show();
         }
     }
 
     @FXML
-    void btnSalaryDeleteOnAction(ActionEvent event) {
+    public void btnSalaryDeleteOnAction(ActionEvent actionEvent) {
+        SalaryTM selectedSalary = tblSalary.getSelectionModel().getSelectedItem();
 
-    }
+        if (selectedSalary == null) {
+            new Alert(Alert.AlertType.WARNING, "Please select a salary record to delete").show();
+            return;
+        }
 
-    @FXML
-    void btnSalaryUpddateOnAction(ActionEvent event) {
-        String selectedPosition = txtPosition.getText();
-        if (selectedPosition != null && !txtSalary.getText().isEmpty()) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Are You Sure",
+                ButtonType.YES,
+                ButtonType.NO);
+        Optional<ButtonType> response = alert.showAndWait();
+
+        if (response.isPresent() && response.get() == ButtonType.YES) {
             try {
-                double newSalary = Double.parseDouble(txtSalary.getText());
-                AddSalaryDto addSalaryDto = new AddSalaryDto(selectedPosition, newSalary);
-                String result = addSalaryModel.updateSalary(addSalaryDto);
-                System.out.println(result);
-                resetPage();
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid salary input. Please enter a valid number.");
-            } catch (ClassNotFoundException | SQLException e) {
-                System.out.println("Error occurred while updating salary: " + e.getMessage());
+                String position = selectedSalary.getPosition();
+                String result = addSalaryModel.deleteSalary(position);
+                boolean isDeleted = result != null && result.equalsIgnoreCase("Successfully Delete");
+                if (isDeleted) {
+                    new Alert(Alert.AlertType.INFORMATION, "Salary Deleted Successfully").show();
+                    resetPage();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Failed to delete salary details").show();
+                }
+            } catch (Exception e) {
+                new Alert(Alert.AlertType.ERROR, "Failed to delete salary details: " + e.getMessage()).show();
             }
-        } else {
-            System.out.println("Please enter a valid position and salary to update.");
         }
     }
 
     public void cmbPositionOnAction(ActionEvent actionEvent) {
+        // Action when position is selected from combo box
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         cmbBox.setItems(FXCollections.observableArrayList("Field Worker", "Supervisor", "Manager", "Technician"));
-        tblPosition.setCellValueFactory(new PropertyValueFactory<SalaryTM,String>("position"));
-        tblDailySalary.setCellValueFactory(new PropertyValueFactory<SalaryTM,Double>("salary"));
+        tblPosition.setCellValueFactory(new PropertyValueFactory<>("position"));
+        tblDailySalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
 
-        try{
-            loardTableData();
-
+        try {
+            loadTableData();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR, "Failed to initialize: " + e.getMessage()).show();
         }
     }
 
-    private void loardTableData() {
+    private void loadTableData() {
         try {
             ArrayList<AddSalaryDto> allSalaries = addSalaryModel.getAllSalaryByPosition();
             ObservableList<SalaryTM> salaryTMS = FXCollections.observableArrayList();
             for (AddSalaryDto addSalaryDto : allSalaries) {
-                SalaryTM salaryTM = new SalaryTM(
+                salaryTMS.add(new SalaryTM(
                         addSalaryDto.getPosition(),
                         addSalaryDto.getSalary()
-                );
-                salaryTMS.add(salaryTM);
+                ));
             }
             tblSalary.setItems(salaryTMS);
-
         } catch (SQLException | ClassNotFoundException e) {
-            System.out.println("Error loading table data: " + e.getMessage());
+            new Alert(Alert.AlertType.ERROR, "Error loading table data: " + e.getMessage()).show();
         }
     }
-    public void resetPage(){
-        clearInputFields();
-        loardTableData();
 
+    public void resetPage() {
+        clearInputFields();
+        loadTableData();
     }
-    public void clearInputFields(){
-         cmbBox.getSelectionModel().clearSelection();
-         txtSalary.clear();
-         txtPosition.clear();
-         cmbBox.requestFocus();
-         cmbBox.setDisable(false);
-         txtSalary.setDisable(false);
-         txtPosition.setDisable(false);
-         btnSalaryAddOnAction(null);
-         cmbBox.setDisable(true);
+
+    public void clearInputFields() {
+        cmbBox.getSelectionModel().clearSelection();
+        txtSalary.clear();
+        cmbBox.requestFocus();
+        cmbBox.setDisable(false);
+        txtSalary.setDisable(false);
     }
 
     public void btnResetPageOnAction(ActionEvent actionEvent) {
@@ -145,11 +143,15 @@ public class AddSalaryController implements Initializable {
     }
 
     public void onClickTable(MouseEvent mouseEvent) {
-        SalaryTM selectedSalary = (SalaryTM) tblSalary.getSelectionModel().getSelectedItem();
+        SalaryTM selectedSalary = tblSalary.getSelectionModel().getSelectedItem();
 
         if (selectedSalary != null) {
             txtSalary.setText(String.valueOf(selectedSalary.getSalary()));
             cmbBox.getSelectionModel().select(selectedSalary.getPosition());
+
+            // Disable fields for editing when selecting from table
+            cmbBox.setDisable(true);
+            txtSalary.setDisable(false);
         }
     }
 }

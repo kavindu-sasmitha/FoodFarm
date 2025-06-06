@@ -12,15 +12,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -73,6 +78,8 @@ public class OrderController implements Initializable {
 
     @FXML
     private TextField txtAddToCartQty;
+    @FXML
+    private ComboBox<String> cmbPaymentMethod;
 
     private final OrderModel orderModel = new OrderModel();
     private final CustomerModel customerModel = new CustomerModel();
@@ -305,6 +312,14 @@ public class OrderController implements Initializable {
         colAction.setCellValueFactory(new PropertyValueFactory<>("btnRemove"));
 
         tblCart.setItems(cartData);
+        cmbPaymentMethod.getItems().addAll(
+                "Cash",
+                "Credit Card",
+                "Debit Card",
+                "Mobile Payment",
+                "Bank Transfer"
+        );
+
 
         try {
             resetPage();
@@ -320,15 +335,10 @@ public class OrderController implements Initializable {
     public void resetPage() throws SQLException, ClassNotFoundException {
         lblOrderId.setText(orderModel.getNextOrderId());
         orderDate.setText(LocalDate.now().toString());
-      //  loadCustomerIds();
         loadItemIds();
     }
 
-//    private void loadCustomerIds() throws SQLException, ClassNotFoundException {
-//        ArrayList<String> customerIdList = customerModel.getAllCustomerIds();
-//        ObservableList<String> customerIds = FXCollections.observableArrayList(customerIdList);
-//        txtCustomerContact.getItems().setAll(customerIds);
-//    }
+
 
     private void loadItemIds() throws SQLException, ClassNotFoundException {
         ArrayList<String> itemIdsList = itemModel.getAllItemIds();
@@ -366,4 +376,6 @@ public class OrderController implements Initializable {
            e.printStackTrace();
        }
     }
+
+
 }

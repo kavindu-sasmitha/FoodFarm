@@ -14,13 +14,6 @@ public class AddSalaryModel {
         return CrudUtil.execute(sql, addSalaryDto.getPosition(), addSalaryDto.getSalary()) ? "Salary added successfully" : "Failed to add salary";
     }
 
-    public String updateSalary(AddSalaryDto addSalaryDto) throws SQLException, ClassNotFoundException {
-        String sql = "UPDATE addSalary SET daily_salary = ? WHERE position = ?";
-        return CrudUtil.execute(sql,addSalaryDto.getSalary(),addSalaryDto.getPosition())
-                ? "Salary updated successfully"
-                : "Failed to update salary";
-    }
-
 
     public ArrayList<AddSalaryDto> getAllSalaryByPosition() throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM addSalary";
@@ -33,5 +26,10 @@ public class AddSalaryModel {
             ));
         }
         return salaryList;
+    }
+
+    public String deleteSalary(String selectedPosition) throws SQLException, ClassNotFoundException {
+        return CrudUtil.execute("DELETE FROM addSalary WHERE position = ?",selectedPosition
+        ) ? "Successfully Delete":"Delete Fail";
     }
 }

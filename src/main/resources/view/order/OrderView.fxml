@@ -103,7 +103,6 @@
                 </children>
             </VBox>
 
-            <!-- Rest of the content remains exactly the same -->
             <!-- Item Selection Section -->
             <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 15;">
                 <children>
@@ -145,37 +144,37 @@
                             </Label>
 
                             <!-- Qty On Hand -->
-                            <Label text="Available Qty:" textFill="#455a64" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <Label text="Available Qty:" textFill="#455a64" GridPane.rowIndex="2">
                                 <font>
                                     <Font name="Segoe UI Semibold" size="13.0" />
                                 </font>
                             </Label>
-                            <Label fx:id="lblItemQty" text="0" textFill="#2d3748" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <Label fx:id="lblItemQty" text="0" textFill="#2d3748" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                 <font>
                                     <Font name="Segoe UI" size="13.0" />
                                 </font>
                             </Label>
 
                             <!-- Unit Price -->
-                            <Label text="Unit Price:" textFill="#455a64" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                            <Label text="Unit Price:" textFill="#455a64" GridPane.columnIndex="3" GridPane.rowIndex="2">
                                 <font>
                                     <Font name="Segoe UI Semibold" size="13.0" />
                                 </font>
                             </Label>
-                            <Label fx:id="lblItemPrice" text="0.00" textFill="#2d3748" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                            <Label fx:id="lblItemPrice" text="0.00" textFill="#2d3748" GridPane.columnIndex="4" GridPane.rowIndex="2">
                                 <font>
                                     <Font name="Segoe UI" size="13.0" />
                                 </font>
                             </Label>
 
                             <!-- Add to Cart -->
-                            <Label text="Quantity:" textFill="#455a64" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                            <Label text="Quantity:" textFill="#455a64" GridPane.rowIndex="4">
                                 <font>
                                     <Font name="Segoe UI Semibold" size="13.0" />
                                 </font>
                             </Label>
-                            <TextField fx:id="txtAddToCartQty" promptText="Enter quantity" style="-fx-background-radius: 4; -fx-padding: 5 10;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                            <Button mnemonicParsing="false" onAction="#btnAddToCartOnAction" style="-fx-background-color: #4caf50; -fx-background-radius: 4; -fx-cursor: hand; -fx-padding: 8 15;" text="Add to Cart" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                            <TextField fx:id="txtAddToCartQty" promptText="Enter quantity" style="-fx-background-radius: 4; -fx-padding: 5 10;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                            <Button mnemonicParsing="false" onAction="#btnAddToCartOnAction" style="-fx-background-color: #4caf50; -fx-background-radius: 4; -fx-cursor: hand; -fx-padding: 8 15;" text="Add to Cart" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="4">
                                 <font>
                                     <Font name="Segoe UI Semibold" size="12.0" />
                                 </font>
@@ -183,11 +182,15 @@
                                     <Insets left="15.0" />
                                 </GridPane.margin>
                             </Button>
+                          <ComboBox fx:id="cmbPaymentMethod" promptText="Payment Method" style="-fx-background-radius: 4; -fx-pref-width: 150;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                     <Label text="Payment Method :" GridPane.rowIndex="3" />
                         </children>
                         <rowConstraints>
                             <RowConstraints />
                             <RowConstraints />
                             <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
                         </rowConstraints>
                     </GridPane>
                 </children>

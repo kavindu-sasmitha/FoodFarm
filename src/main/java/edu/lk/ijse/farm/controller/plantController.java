@@ -157,11 +157,12 @@ public class plantController implements Initializable {
         try {
             String result = plantModel.addPlant(plantDto);
             boolean isSaved = result != null && result.equalsIgnoreCase("true");
-            resetPage();
-            clearInputFields();
-            loadTableData(); // Load the table data before showing success message
-            showSuccess("Customer Saved", "Customer details have been saved successfully!");
-
+            if (!isSaved) {
+                resetPage();
+                clearInputFields();
+                loadTableData();
+                showSuccess("Customer Saved", "Customer details have been saved successfully!");
+            }
             for (PlantTM plantTM : tblPlant.getItems()) {
                 if (plantTM.getPlantId().equals(plantDto.getPlantId())) {
                     tblPlant.getSelectionModel().select(plantTM);
@@ -261,7 +262,6 @@ public class plantController implements Initializable {
         colLifeTimeDays.setCellValueFactory(new PropertyValueFactory<>("lifeTimeDays"));
 
         try {
-            // Initial setup like loading next ID or table data
             loadNextId();
             loadTableData();
         } catch (Exception e) {

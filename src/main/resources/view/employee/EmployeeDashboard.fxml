@@ -21,14 +21,6 @@
                            </image>
                         </ImageView>
                      </graphic></Button>
-                  <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#btnManageAttendanceOnAction" text="Manage Attendance">
-                     <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../photos/employeAttendance.png" />
-                           </image>
-                        </ImageView>
-                     </graphic></Button>
                   <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#btnManageSalaryOnAction" text="Manage Salary">
                      <graphic>
                         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">

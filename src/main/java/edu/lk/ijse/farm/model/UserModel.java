@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class UserModel {
    public String saveUser(UserDto userDto) throws SQLException, ClassNotFoundException {
         Connection connection= DBConnection.getInstance().getConnection();
-        String sql="INSERT INTO users VALUES(?,?,?,?)";
+        String sql="INSERT INTO User VALUES(?,?,?,?)";
         PreparedStatement statement=connection.prepareStatement(sql);
         statement.setInt(1, userDto.getId());
         statement.setString(2, userDto.getUserName());

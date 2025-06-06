@@ -279,8 +279,6 @@ public class SupplierController implements Initializable {
         colItem.setCellValueFactory(new PropertyValueFactory<SupplierTM, String>("items"));
 
         try {
-
-            // Initial setup like loading next ID or table data
             loadNextId();
             loadTableData();
         } catch (Exception e) {

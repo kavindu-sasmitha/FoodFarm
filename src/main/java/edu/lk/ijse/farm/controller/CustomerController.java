@@ -68,7 +68,7 @@ public class CustomerController implements Initializable {
 
     private final CustomerModel customerModel = new CustomerModel();
 
-    // Constructor
+
     public CustomerController() throws Exception {
     }
 
@@ -81,7 +81,6 @@ public class CustomerController implements Initializable {
         colAddress.setCellValueFactory(new PropertyValueFactory<CustomerTM, String>("address"));
 
         try {
-            // Initial setup like loading next ID or table data
             loadNextId();
             loadTableData();
         } catch (Exception e) {
@@ -110,7 +109,7 @@ public class CustomerController implements Initializable {
                     loadTableData();
                     showSuccess("Customer Saved", "Customer details have been saved successfully!");
 
-                    // Highlight the saved customer in the table
+
                     for (CustomerTM customer : tblCustomer.getItems()) {
                         if (customer.getCustomerId().equals(customerDto.getCustomerId())) {
                             tblCustomer.getSelectionModel().select(customer);
@@ -161,7 +160,6 @@ public class CustomerController implements Initializable {
                     getClass().getResourceAsStream("/report/CustomerReport.jrxml")
             );
             Connection connection=DBConnection.getInstance().getConnection();
-            //p_date
 
             Map<String,Object> parameters=new HashMap<>();
 

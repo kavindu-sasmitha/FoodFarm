@@ -30,7 +30,5 @@ public class EmployeeDashBoardController {
         loadView("/view/employee/AddSalary.fxml", ancPaneEmployee);
     }
 
-    public void btnManageAttendanceOnAction(ActionEvent actionEvent) {
 
-    }
 }
