@@ -93,7 +93,7 @@ public class AddSalaryController implements Initializable {
     }
 
     public void cmbPositionOnAction(ActionEvent actionEvent) {
-        // Action when position is selected from combo box
+
     }
 
     @Override
@@ -139,6 +139,7 @@ public class AddSalaryController implements Initializable {
     }
 
     public void btnResetPageOnAction(ActionEvent actionEvent) {
+
         resetPage();
     }
 
@@ -149,7 +150,7 @@ public class AddSalaryController implements Initializable {
             txtSalary.setText(String.valueOf(selectedSalary.getSalary()));
             cmbBox.getSelectionModel().select(selectedSalary.getPosition());
 
-            // Disable fields for editing when selecting from table
+
             cmbBox.setDisable(true);
             txtSalary.setDisable(false);
         }

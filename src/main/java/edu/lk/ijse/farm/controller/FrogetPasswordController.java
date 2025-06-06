@@ -15,6 +15,8 @@ import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.Random;
+
 import edu.lk.ijse.farm.controller.LoginController;
 
 public class FrogetPasswordController {
@@ -56,8 +58,9 @@ public class FrogetPasswordController {
 
     @FXML
     private TextField txtVerificationCode;
+     Random random = new Random();
 
-    private final String otp = "2004";
+    private  String otp = String.format("%06d", random.nextInt(1000000));
 
     @FXML
     void btnResetPasswordOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
@@ -93,8 +96,8 @@ public class FrogetPasswordController {
         String subject = "Password Reset Code";
         String text = "Your verification code is: " + otp;
         String email = txtEmail.getText();
-        String myEmail = "kavindusasmitha20@gmail.com"; // Correct the email format here
-        String myPassword = "mnen eqxh ojek pves"; // Correct application-specific password
+        String myEmail = "kavindusasmitha20@gmail.com";
+        String myPassword = "mnen eqxh ojek pves";
 
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -112,7 +115,7 @@ public class FrogetPasswordController {
 
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(myEmail)); // Validate this email
+            message.setFrom(new InternetAddress(myEmail));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
             message.setSubject(subject);
             message.setText(text);
@@ -144,10 +147,10 @@ public class FrogetPasswordController {
     private void loadView(String resourcePath, AnchorPane container) {
         try {
             if (container != null) {
-                container.getChildren().clear(); // Clear existing content
+                container.getChildren().clear();
                 Parent root = FXMLLoader.load(getClass().getResource(resourcePath));
                 if (root != null) {
-                    container.getChildren().add(root); // Add the new content
+                    container.getChildren().add(root);
                 } else {
                     showAlert("Error", "Failed to load the requested view! Resource not found.");
                 }

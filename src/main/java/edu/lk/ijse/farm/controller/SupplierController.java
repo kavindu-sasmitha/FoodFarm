@@ -222,17 +222,41 @@ public class SupplierController implements Initializable {
     }
 
     @FXML
-    void btnSupplierUpdateOnAction(ActionEvent event) {
-        String id=lblId.getText();
-        String name=txtName.getText();
-        String address=txtAddress.getText();
-        String contact=txtContact.getText();
-        String item=txtItem.getText();
-        if (isInputValid(name,contact,address)) {
-            SupplierDto supplierDto=new SupplierDto(id,name,address,contact,item);
-        }
+    void btnSupplierUpdateOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+        String id = lblId.getText();
+        String name = txtName.getText();
+        String contact = txtContact.getText();
+        String address = txtAddress.getText();
+        String item = txtItem.getText();
 
+        try {
+
+            if (!isInputValid(name, contact, address)) {
+                showError("Validation Error", "Please provide valid supplier details.");
+                return;
+            }
+
+            SupplierDto supplierDto = new SupplierDto(id, name, contact, address, item);
+            String result = supplierModel.updateSupplier(supplierDto);
+            boolean isUpdate = result.equalsIgnoreCase("Supplier updated successfully");
+
+            if (isUpdate) {
+                resetPage();
+                clearInputFields();
+                loadTableData();
+                showSuccess("Supplier Updated", "Supplier details have been updated successfully!");
+            } else {
+                showError("Update Failed", "Failed to update Supplier details.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showError("Database Error", "Unable to update Supplier details due to a database issue.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Unexpected Error", "An error occurred.\nPlease contact support.");
+        }
     }
+
     private boolean isInputValid(String name,String contact,String address) {
         if (name.isEmpty()  || contact.isEmpty() ||  address.isEmpty()) {
             showError("Input Error", "All input fields are required.\nPlease fill in all fields.");

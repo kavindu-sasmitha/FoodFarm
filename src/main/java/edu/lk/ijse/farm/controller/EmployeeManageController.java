@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -159,7 +160,7 @@ public class EmployeeManageController implements Initializable {
         String employeeId = lblId.getText();
         String name = txtName.getText();
         String contact = txtContact.getText();
-        String date = txtDate.getText();
+        String date = LocalDate.now().toString();
         String email = txtEmail.getText();
         String position = txtPosition.getText();
         if (isInputValid(name, contact, email, date)) {
@@ -287,12 +288,12 @@ public class EmployeeManageController implements Initializable {
             if (allEmployee != null && !allEmployee.isEmpty()) {
                 for (EmployeeDto employeeDto : allEmployee) {
                     EmployeeTM employeeTM = new EmployeeTM(
-                            employeeDto.getEmployeeId() != null ? employeeDto.getEmployeeId() : "",
-                            employeeDto.getName() != null ? employeeDto.getName() : "",
-                            employeeDto.getContact() != null ? employeeDto.getContact() : "",
-                            employeeDto.getJoiningDate() != null ? employeeDto.getJoiningDate() : "",
-                            employeeDto.getEmail() != null ? employeeDto.getEmail() : "",
-                            employeeDto.getPosition() != null ? employeeDto.getPosition() : ""
+                            employeeDto.getEmployeeId(),
+                            employeeDto.getName(),
+                            employeeDto.getContact(),
+                            employeeDto.getJoiningDate(),
+                            employeeDto.getEmail(),
+                            employeeDto.getPosition()
                     );
                     employeeTMS.add(employeeTM);
                 }

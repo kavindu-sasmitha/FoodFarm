@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @Setter
 @ToString
-public class EmployeeTM extends CustomerTM {
+public class EmployeeTM {
     private String employeeId;
     private String name;
     private String contact;

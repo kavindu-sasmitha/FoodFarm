@@ -100,7 +100,7 @@ public class CustomerModel {
             nextid++;
             return String.format("C"+"%03d",nextid);
         }else {
-            return "C00-001";
+            return "C-001";
         }
     }
 }

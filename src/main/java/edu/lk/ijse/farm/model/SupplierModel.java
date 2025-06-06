@@ -21,7 +21,8 @@ public class SupplierModel {
     }
 
     public String updateSupplier(SupplierDto supplierDto) throws SQLException, ClassNotFoundException {
-        String sql = "UPDATE Supplier SET Supplier_Name = ?,Contact_Number = ?,Address = ?,Supplied_Items = ? WHERE Supplier_Id = ?";
+        String sql = "UPDATE Supplier SET Supplier_Name =?,Contact_Number = ?,Address = ?,Supplied_Items = ? WHERE Supplier_Id = ?";
+        //System.out.println("Updating Supplier");
         return CrudUtil.execute(sql,
                 supplierDto.getName(),
                 supplierDto.getContact(),
@@ -52,17 +53,6 @@ public class SupplierModel {
             supplierDtoList.add(supplierDto);
         }
         return supplierDtoList;
-    }
-
-
-    public List<String> getAllSupplierIds() throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.execute("select Supplier_Id from Supplier");
-        List<String> list = new ArrayList<>();
-        while (rst.next()) {
-            String id = rst.getString(1);
-            list.add(id);
-        }
-        return list;
     }
 
 

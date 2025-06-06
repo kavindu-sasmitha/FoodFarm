@@ -177,46 +177,6 @@ public class plantController implements Initializable {
         }
     }
 
-    private void clearInputFields() {
-        txtType.clear();
-        txtGrowthSatges.clear();
-        txtLifeTimeDays.clear();
-        txtNumberOfPlant.clear();
-        loadNextId();
-    }
-
-    private void resetPage() {
-        txtType.clear();
-        txtGrowthSatges.clear();
-        txtLifeTimeDays.clear();
-        txtNumberOfPlant.clear();
-        loadNextId();
-
-    }
-    private void loadNextId() {
-        try {
-            String nextId = plantModel.getNextID();
-            if (nextId != null) {
-                lblId.setText(nextId);
-            }else{
-                System.out.println("No customer id found");
-            }
-
-
-        } catch (Exception e) {
-            showError("Error", "Failed to load the next customer ID.");
-        }
-    }
-    private void showSuccess(String title, String message) {
-        new Alert(Alert.AlertType.INFORMATION, message).setTitle(title);
-    }
-
-    private void showError(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, message);
-        alert.setTitle(title);
-        alert.show();
-    }
-
 
     @FXML
     void btnSearchPlantOnAction(ActionEvent event) {
@@ -302,5 +262,47 @@ public class plantController implements Initializable {
             txtGrowthSatges.setText(selectedPlant.getGrowthStage());
             txtLifeTimeDays.setText(String.valueOf(selectedPlant.getLifeTimeDays()));
         }
+    }
+
+    private void clearInputFields() {
+        txtType.clear();
+        txtGrowthSatges.clear();
+        txtLifeTimeDays.clear();
+        txtNumberOfPlant.clear();
+        loadNextId();
+    }
+
+    private void resetPage() {
+        txtType.clear();
+        txtGrowthSatges.clear();
+        txtLifeTimeDays.clear();
+        txtNumberOfPlant.clear();
+        txtSearch.clear();
+        loadNextId();
+        loadTableData();
+
+    }
+    private void loadNextId() {
+        try {
+            String nextId = plantModel.getNextID();
+            if (nextId != null) {
+                lblId.setText(nextId);
+            }else{
+                System.out.println("No customer id found");
+            }
+
+
+        } catch (Exception e) {
+            showError("Error", "Failed to load the next customer ID.");
+        }
+    }
+    private void showSuccess(String title, String message) {
+        new Alert(Alert.AlertType.INFORMATION, message).setTitle(title);
+    }
+
+    private void showError(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message);
+        alert.setTitle(title);
+        alert.show();
     }
 }
