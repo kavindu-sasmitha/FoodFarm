@@ -1,11 +1,8 @@
 package edu.lk.ijse.farm.controller;
 
-import edu.lk.ijse.farm.dto.CustomerDto;
 import edu.lk.ijse.farm.dto.PlantDto;
-import edu.lk.ijse.farm.dto.tm.CustomerTM;
 import edu.lk.ijse.farm.dto.tm.PlantTM;
 import edu.lk.ijse.farm.model.PlantModel;
-import edu.lk.ijse.farm.util.CrudUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

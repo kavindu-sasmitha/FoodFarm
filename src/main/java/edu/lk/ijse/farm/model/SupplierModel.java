@@ -1,8 +1,7 @@
 package edu.lk.ijse.farm.model;
 
-import edu.lk.ijse.farm.dto.EmployeeDto;
 import edu.lk.ijse.farm.dto.SupplierDto;
-import edu.lk.ijse.farm.util.CrudUtil;
+import edu.lk.ijse.farm.dao.SQlUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +10,7 @@ import java.util.List;
 
 public class SupplierModel {
     public String saveSupplier(SupplierDto supplierDto) throws SQLException, ClassNotFoundException {
-        boolean isSaved = CrudUtil.execute("INSERT INTO Supplier (Supplier_Id,Supplier_Name,Contact_Number,Address,Supplied_Items) VALUES (?, ?, ?, ?, ?)",
+        boolean isSaved = SQlUtil.execute("INSERT INTO Supplier (Supplier_Id,Supplier_Name,Contact_Number,Address,Supplied_Items) VALUES (?, ?, ?, ?, ?)",
                 supplierDto.getSupplierId(),
                 supplierDto.getName(),
                 supplierDto.getContact(),
@@ -23,7 +22,7 @@ public class SupplierModel {
     public String updateSupplier(SupplierDto supplierDto) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE Supplier SET Supplier_Name =?,Contact_Number = ?,Address = ?,Supplied_Items = ? WHERE Supplier_Id = ?";
         //System.out.println("Updating Supplier");
-        return CrudUtil.execute(sql,
+        return SQlUtil.execute(sql,
                 supplierDto.getName(),
                 supplierDto.getContact(),
                 supplierDto.getAddress(),
@@ -32,11 +31,11 @@ public class SupplierModel {
     }
 
     public String deleteSupplier(String supplierId) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute("DELETE FROM Supplier WHERE Supplier_Id=?", supplierId) ? "Supplier deleted successfully" : "Failed to delete supplier";
+        return SQlUtil.execute("DELETE FROM Supplier WHERE Supplier_Id=?", supplierId) ? "Supplier deleted successfully" : "Failed to delete supplier";
     }
 
     public List<SupplierDto> searchSupplier(String keyword) throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.execute("SELECT * FROM Supplier WHERE Supplier_Id LIKE ? OR Supplier_Name LIKE ? OR Contact_Number LIKE ? OR Address LIKE ? OR Supplied_Items LIKE ?",
+        ResultSet rst = SQlUtil.execute("SELECT * FROM Supplier WHERE Supplier_Id LIKE ? OR Supplier_Name LIKE ? OR Contact_Number LIKE ? OR Address LIKE ? OR Supplied_Items LIKE ?",
                 "%" + keyword + "%",
                 "%" + keyword + "%",
                 "%" + keyword + "%",
@@ -57,7 +56,7 @@ public class SupplierModel {
 
 
     public ArrayList<SupplierDto> getAllSupplier() throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.execute("SELECT * FROM Supplier");
+        ResultSet rst = SQlUtil.execute("SELECT * FROM Supplier");
         ArrayList<SupplierDto> suppliers = new ArrayList<>();
         while (rst.next()) {
             SupplierDto supplierDto = new SupplierDto(
@@ -73,7 +72,7 @@ public class SupplierModel {
     }
     public String getNextID() throws SQLException, ClassNotFoundException {
         String sql= "select Supplier.Supplier_Id from Supplier order by Supplier_Id desc LIMIT 1";
-        ResultSet resultSet=CrudUtil.execute(sql);
+        ResultSet resultSet= SQlUtil.execute(sql);
         if(resultSet.next()){
             String id=resultSet.getString(1);
             String numericPart = id.replaceAll("[^0-9]", "");

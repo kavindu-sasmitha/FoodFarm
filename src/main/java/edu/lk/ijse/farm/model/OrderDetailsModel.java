@@ -2,7 +2,7 @@ package edu.lk.ijse.farm.model;
 
 import edu.lk.ijse.farm.db.DBConnection;
 import edu.lk.ijse.farm.dto.OrderDetailDto;
-import edu.lk.ijse.farm.util.CrudUtil;
+import edu.lk.ijse.farm.dao.SQlUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -50,7 +50,7 @@ public class OrderDetailsModel {
     }
 
     private boolean saveOrderDetails(OrderDetailDto dto) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute(
+        return SQlUtil.execute(
                 "INSERT INTO Order_Details (Order_Id,Customer_Id,Item_Id,Price_Of_1KG,Quantity,Total_Price) VALUES (?, ?, ?, ?, ?, ?)",
                 dto.getOrderId(),
                 dto.getCustomer_Id(),

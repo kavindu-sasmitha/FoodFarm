@@ -2,7 +2,7 @@ package edu.lk.ijse.farm.model;
 
 import edu.lk.ijse.farm.dto.ItemDto;
 import edu.lk.ijse.farm.dto.OrderDetailDto;
-import edu.lk.ijse.farm.util.CrudUtil;
+import edu.lk.ijse.farm.dao.SQlUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class ItemModel {
     public String saveItem(ItemDto itemDto) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO Items (Item_Id,Item_Name,Manufacture_Date,Expire_Date,Price_Per_Unite,Quantity) VALUES (?, ?, ?, ?, ?, ?)";
-        return CrudUtil.execute(sql,
+        return SQlUtil.execute(sql,
                 itemDto.getItemCode(),
                 itemDto.getItemName(),
                 itemDto.getManufactureDate(),
@@ -21,12 +21,12 @@ public class ItemModel {
     }
 
     public String deleteItems(String itemCode) throws SQLException, ClassNotFoundException {
-       return CrudUtil.execute("DELETE FROM Items WHERE Item_Id=?", itemCode) ? "Item deleted successfully" : "Item deletion failed";
+       return SQlUtil.execute("DELETE FROM Items WHERE Item_Id=?", itemCode) ? "Item deleted successfully" : "Item deletion failed";
     }
 
     public String updateItem(ItemDto itemDto) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE Items SET Item_Name = ?,Manufacture_Date = ?,Expire_Date = ?,Price_Per_Unite = ?,Quantity = ? WHERE Item_Id = ?";
-        boolean isUpdated = CrudUtil.execute(sql,
+        boolean isUpdated = SQlUtil.execute(sql,
                 itemDto.getItemName(),
                 itemDto.getManufactureDate(),
                 itemDto.getExpireDate(),
@@ -38,7 +38,7 @@ public class ItemModel {
 
     public ItemDto searchItems(String item_id) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM Items WHERE Item_Id LIKE ? OR Item_Name LIKE ? OR Manufacture_Date LIKE ? OR Expire_Date LIKE ? OR Price_Per_Unite LIKE ? OR Quantity LIKE ?";
-        ResultSet rst = CrudUtil.execute(sql,
+        ResultSet rst = SQlUtil.execute(sql,
                 "%" + item_id + "%",
                 "%" + item_id + "%",
                 "%" + item_id + "%",
@@ -59,7 +59,7 @@ public class ItemModel {
     }
    
     public ArrayList<String> getAllItemIds() throws SQLException, ClassNotFoundException {
-        ResultSet rst= CrudUtil.execute("select Item_Id from Items");
+        ResultSet rst= SQlUtil.execute("select Item_Id from Items");
         ArrayList<String> list=new ArrayList<>();
         while(rst.next()){
             String id=rst.getString(1);
@@ -70,7 +70,7 @@ public class ItemModel {
     }
 
     public ItemDto findById(String selectItemDetails) throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.execute("SELECT * FROM Items WHERE Item_Id = ?", selectItemDetails);
+        ResultSet rst = SQlUtil.execute("SELECT * FROM Items WHERE Item_Id = ?", selectItemDetails);
         if (rst.next()) {
             return new ItemDto(
                     rst.getString("Item_Id"),
@@ -85,12 +85,12 @@ public class ItemModel {
 
     }
     public boolean reduseQty(OrderDetailDto orderDetailDto) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute("update Items set Quantity=Quantity-? where Item_Id=?",orderDetailDto.getQuantity(),orderDetailDto.getItemCode());
+        return SQlUtil.execute("update Items set Quantity=Quantity-? where Item_Id=?",orderDetailDto.getQuantity(),orderDetailDto.getItemCode());
     }
 
     public String getNextID() throws SQLException, ClassNotFoundException {
         String sql= "select Items.Item_Id from Items order by Item_Id desc LIMIT 1";
-        ResultSet resultSet=CrudUtil.execute(sql);
+        ResultSet resultSet= SQlUtil.execute(sql);
         if(resultSet.next()){
             String id=resultSet.getString(1);
             String numericPart = id.replaceAll("[^0-9]", "");
@@ -104,7 +104,7 @@ public class ItemModel {
 
     public ArrayList<ItemDto> getAllItems() throws SQLException, ClassNotFoundException {
         //System.out.println("getAllItems called in ItemModel.java");
-        ResultSet resultSet = CrudUtil.execute("select * from Items");
+        ResultSet resultSet = SQlUtil.execute("select * from Items");
        // System.out.println("query ok");
         ArrayList<ItemDto> list = new ArrayList<>();
        // System.out.println("list created");
@@ -127,7 +127,7 @@ public class ItemModel {
     }
 
     public boolean reduceQty(OrderDetailDto orderDetailsDTO) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute(
+        return SQlUtil.execute(
                 "update items set Quantity = quantity-? where Item_Id=?",
                 orderDetailsDTO.getQuantity(),
                 orderDetailsDTO.getItemCode()

@@ -7,7 +7,7 @@ package edu.lk.ijse.farm.model;
 import edu.lk.ijse.farm.db.DBConnection;
 import edu.lk.ijse.farm.dto.OrderDetailDto;
 import edu.lk.ijse.farm.dto.OrderDto;
-import edu.lk.ijse.farm.util.CrudUtil;
+import edu.lk.ijse.farm.dao.SQlUtil;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -24,7 +24,7 @@ public class OrderModel {
         try {
             connection.setAutoCommit(false);
 
-            boolean isOrderSaved = CrudUtil.execute(
+            boolean isOrderSaved = SQlUtil.execute(
                     "INSERT INTO orders (Order_Id, Order_Date, Total_Amount, Customer_Id, Order_States) VALUES (?, ?, ?, ?, ?)",
                     orderDTO.getOrderId(),
                     orderDTO.getDate(),
@@ -58,7 +58,7 @@ public class OrderModel {
     }
 
     public String getNextOrderId() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = CrudUtil.execute("SELECT Order_Id FROM orders ORDER BY Order_Id DESC LIMIT 1");
+        ResultSet resultSet = SQlUtil.execute("SELECT Order_Id FROM orders ORDER BY Order_Id DESC LIMIT 1");
         char tableChar = 'O';
         if (resultSet.next()) {
             String lastId = resultSet.getString(1); // "O004"
@@ -72,7 +72,7 @@ public class OrderModel {
     }
 
     public boolean reduceQty(OrderDetailDto orderDetailsDTO) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute(
+        return SQlUtil.execute(
                 "update item set quantity = quantity-? where item_id=?",
                 orderDetailsDTO.getQuantity(),
                 orderDetailsDTO.getItemCode()

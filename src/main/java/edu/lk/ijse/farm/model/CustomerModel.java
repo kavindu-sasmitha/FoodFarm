@@ -1,8 +1,8 @@
 package edu.lk.ijse.farm.model;
 
+import edu.lk.ijse.farm.dao.SQlUtil;
 import edu.lk.ijse.farm.db.DBConnection;
 import edu.lk.ijse.farm.dto.CustomerDto;
-import edu.lk.ijse.farm.util.*;
 
 
 import java.sql.Connection;
@@ -19,7 +19,7 @@ public class CustomerModel {
     }
 
     public String saveCustomer(CustomerDto customerDto) throws Exception {
-        return CrudUtil.execute(
+        return SQlUtil.execute(
                 "INSERT INTO Customer (Customer_Id,Customer_Name,Contact_Number,Email,Address) VALUES (?, ?, ?, ?, ?)",
                 customerDto.getCustomerId(),
                 customerDto.getName(),
@@ -53,7 +53,7 @@ public class CustomerModel {
     }
 
     public String updateCustomer(CustomerDto customerDto) throws Exception {
-        return CrudUtil.execute(
+        return SQlUtil.execute(
                 "UPDATE Customer SET Customer_Name=?, Contact_Number=?, Email=?, Address=? WHERE Customer_Id=?",
                 customerDto.getName(),
                 customerDto.getContact(),
@@ -63,7 +63,7 @@ public class CustomerModel {
         ) ? "Customer updated successfully" : "Failed to update customer";
     }
     public String deleteCustomer(String Id) throws Exception {
-        return CrudUtil.execute("DELETE FROM Customer WHERE Customer_Id=?",
+        return SQlUtil.execute("DELETE FROM Customer WHERE Customer_Id=?",
                 Id)? "Successfully Delete":"Delete Fail";
     }
     public ArrayList<CustomerDto> getAllCustomers() throws Exception {
@@ -83,7 +83,7 @@ public class CustomerModel {
 
     public String findNameByContact(String selectedCustomerContact) throws SQLException, ClassNotFoundException {
         //System.out.println("hiContact");
-        ResultSet rst = CrudUtil.execute(
+        ResultSet rst = SQlUtil.execute(
 
                 "SELECT Customer_Name FROM Customer WHERE Contact_Number=?",
                 selectedCustomerContact
@@ -92,7 +92,7 @@ public class CustomerModel {
     }
     public String getNextID() throws SQLException, ClassNotFoundException {
         String sql="select Customer.Customer_Id from Customer order by Customer_Id desc LIMIT 1";
-        ResultSet resultSet=CrudUtil.execute(sql);
+        ResultSet resultSet= SQlUtil.execute(sql);
         if(resultSet.next()){
             String id=resultSet.getString(1);
             String numericPart = id.replaceAll("[^0-9]", "");

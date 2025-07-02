@@ -18,7 +18,8 @@ module edu.lk.ijse.farm {
     opens edu.lk.ijse.farm.util to javafx.base;
     exports edu.lk.ijse.farm.util;
     exports edu.lk.ijse.farm.dto.tm;
-
+    exports edu.lk.ijse.farm.dao;
+    opens edu.lk.ijse.farm.dao to javafx.base;
 
 
 }

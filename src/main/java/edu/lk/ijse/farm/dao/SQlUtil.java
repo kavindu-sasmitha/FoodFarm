@@ -1,4 +1,4 @@
-package edu.lk.ijse.farm.util;
+package edu.lk.ijse.farm.dao;
 
 import edu.lk.ijse.farm.db.DBConnection;
 
@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CrudUtil {
+public class SQlUtil {
     public static <T>T execute(String sql,Object...data) throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getInstance().getConnection();
         PreparedStatement pst=connection.prepareStatement(sql);

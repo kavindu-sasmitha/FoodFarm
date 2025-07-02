@@ -2,7 +2,7 @@ package edu.lk.ijse.farm.model;
 
 import edu.lk.ijse.farm.db.DBConnection;
 import edu.lk.ijse.farm.dto.PlantDto;
-import edu.lk.ijse.farm.util.CrudUtil;
+import edu.lk.ijse.farm.dao.SQlUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +14,7 @@ import java.util.List;
 public class
 PlantModel {
     public String addPlant(PlantDto plantDto) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute("insert into Plant(Plant_Id,Plant_Type,Number_Of_Plant,Growth_Stages,Life_Time_Days) values (?, ?, ?, ?, ?)",
+        return SQlUtil.execute("insert into Plant(Plant_Id,Plant_Type,Number_Of_Plant,Growth_Stages,Life_Time_Days) values (?, ?, ?, ?, ?)",
                 plantDto.getPlantId(),
                 plantDto.getPlantType(),
                 plantDto.getNumberOfPlant(),
@@ -22,7 +22,7 @@ PlantModel {
                 plantDto.getLifeTimeDate()) ? "add" : "not add";
     }
    public String updatePlant(PlantDto plantDto) throws SQLException, ClassNotFoundException {
-      return CrudUtil.execute("update Plant set Plant_Type=?,Number_Of_Plant=?,Growth_Stages=?,Life_Time_Days=? where Plant_Id=?",
+      return SQlUtil.execute("update Plant set Plant_Type=?,Number_Of_Plant=?,Growth_Stages=?,Life_Time_Days=? where Plant_Id=?",
               plantDto.getPlantType(),
               plantDto.getNumberOfPlant(),
               plantDto.getGrowthStage(),
@@ -31,7 +31,7 @@ PlantModel {
    }
 
     public String deletePlant(String plantId) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute(
+        return SQlUtil.execute(
                 "DELETE FROM Plant WHERE Plant_Id = ?", plantId
         ) ? "Plant deleted successfully" : "Failed to delete plant";
     }
@@ -73,7 +73,7 @@ PlantModel {
 
     public String getNextID() throws SQLException, ClassNotFoundException {
         String sql="select Plant.Plant_id from Plant order by Plant_Id desc LIMIT 1";
-        ResultSet resultSet=CrudUtil.execute(sql);
+        ResultSet resultSet= SQlUtil.execute(sql);
         if(resultSet.next()){
             String id=resultSet.getString(1);
             String numericPart = id.replaceAll("[^0-9]", "");
