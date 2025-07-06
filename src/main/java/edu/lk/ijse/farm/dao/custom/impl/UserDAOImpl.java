@@ -1,5 +1,6 @@
 package edu.lk.ijse.farm.dao.custom.impl;
 
+import edu.lk.ijse.farm.dao.SQlUtil;
 import edu.lk.ijse.farm.dao.custom.UserDAO;
 import edu.lk.ijse.farm.entity.UserEntity;
 
@@ -19,19 +20,27 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean save(UserEntity userEntity) throws SQLException {
-        return false;
+    public boolean save(UserEntity userEntity) throws SQLException, ClassNotFoundException {
+        return SQlUtil.execute("INSERT INTO User VALUES(?,?,?,?)",
+                userEntity.getUserId(),
+                userEntity.getUserName(),
+                userEntity.getUserPaassword(),
+                userEntity.getUserEmail());
     }
 
     @Override
-    public boolean update(UserEntity userEntity) throws SQLException {
-        return false;
+    public boolean update(UserEntity userEntity) throws SQLException, ClassNotFoundException {
+        return SQlUtil.execute("UPDATE User SET User_Name=?,User_Password=?,Email_Address=? WHERE User_ID=?",
+                userEntity.getUserName(),
+                userEntity.getUserPaassword(),
+                userEntity.getUserEmail(),
+                userEntity.getUserId());
     }
     
 
     @Override
-    public boolean delete(String id) throws SQLException {
-        return false;
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
+        return SQlUtil.execute("delete from User where User_ID=?",id);
     }
 
     @Override

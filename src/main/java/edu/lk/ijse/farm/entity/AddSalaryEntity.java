@@ -9,5 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AddSalaryEntity {
     private String position;
-    private String dailySalary;
+    private double dailySalary;
+
+
 }

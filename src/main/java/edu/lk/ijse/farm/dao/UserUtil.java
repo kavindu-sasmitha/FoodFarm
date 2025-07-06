@@ -1,4 +1,4 @@
-package edu.lk.ijse.farm.util;
+package edu.lk.ijse.farm.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
