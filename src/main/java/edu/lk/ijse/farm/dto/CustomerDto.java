@@ -2,11 +2,9 @@ package edu.lk.ijse.farm.dto;
 
 import lombok.*;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
 public class CustomerDto {
     private String customerId;
     private String name;

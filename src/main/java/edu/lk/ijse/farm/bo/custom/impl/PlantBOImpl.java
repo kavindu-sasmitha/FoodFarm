@@ -2,7 +2,7 @@ package edu.lk.ijse.farm.bo.custom.impl;
 
 import edu.lk.ijse.farm.bo.custom.PlantBO;
 import edu.lk.ijse.farm.bo.exception.NotFoundException;
-import edu.lk.ijse.farm.bo.util.EntitiyDTOConvertor;
+import edu.lk.ijse.farm.bo.util.EntityDTOConverter;
 import edu.lk.ijse.farm.dao.DAOFactory;
 import edu.lk.ijse.farm.dao.custom.DAOType;
 import edu.lk.ijse.farm.dao.custom.PlantDAO;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class PlantBOImpl implements PlantBO {
 
     private final PlantDAO plantDAO = DAOFactory.getInstance().getDAO(DAOType.PLANTDAO);
-    private final EntitiyDTOConvertor convertor = new EntitiyDTOConvertor();
+    private final EntityDTOConverter convertor = new EntityDTOConverter();
 
     @Override
     public String updatePlant(PlantDto plantDto) throws SQLException, ClassNotFoundException {
@@ -56,6 +56,9 @@ public class PlantBOImpl implements PlantBO {
     @Override
     public PlantDto searchPlant(String searchText) throws SQLException, ClassNotFoundException {
         List<PlantEntity> optionalPlant = plantDAO.search(searchText);
+        if(!optionalPlant.isEmpty()){
+            return convertor.getPlantDto(optionalPlant.get(0));
+        }
         return null;
     }
 

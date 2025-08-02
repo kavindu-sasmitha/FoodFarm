@@ -3,7 +3,7 @@ package edu.lk.ijse.farm.bo.custom.impl;
 import edu.lk.ijse.farm.bo.custom.CustomerBO;
 import edu.lk.ijse.farm.bo.exception.InUseException;
 import edu.lk.ijse.farm.bo.exception.NotFoundException;
-import edu.lk.ijse.farm.bo.util.EntitiyDTOConvertor;
+import edu.lk.ijse.farm.bo.util.EntityDTOConverter;
 import edu.lk.ijse.farm.dao.DAOFactory;
 import edu.lk.ijse.farm.dao.custom.CustomerDAO;
 import edu.lk.ijse.farm.dao.custom.DAOType;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class CustomerBOImpl implements CustomerBO {
 
     private final CustomerDAO customerDAO = DAOFactory.getInstance().getDAO(DAOType.CUSTOMERDAO);
-    private final EntitiyDTOConvertor convertor = new EntitiyDTOConvertor();
+    private final EntityDTOConverter convertor = new EntityDTOConverter();
 
     @Override
     public boolean saveCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
@@ -93,7 +93,7 @@ public class CustomerBOImpl implements CustomerBO {
         List<CustomerEntity> results = customerDAO.search(contact);
         for (CustomerEntity entity : results) {
             if (entity.getContact().equals(contact)) {
-                return entity.getCustomerName();
+                return entity.getName();
             }
         }
         throw new NotFoundException("Customer name not found for contact: " + contact);

@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SupplierEntity {
    private String supplierId;
-   private String supplierName;
-   private String contactNumber;
+   private String name;
+   private String contact;
    private String address;
-   private String supplierItem;
+   private String supplierItems;
 }

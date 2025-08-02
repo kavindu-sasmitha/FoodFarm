@@ -1,6 +1,6 @@
 package edu.lk.ijse.farm.dto;
 
-import edu.lk.ijse.farm.entity.OrderDetailsEntity;
+import edu.lk.ijse.farm.entity.OrderDetailEntity;
 import lombok.*;
 
 import java.util.ArrayList;

@@ -8,9 +8,9 @@ import edu.lk.ijse.farm.db.DBConnection;
 import edu.lk.ijse.farm.dto.OrderDetailDto;
 import edu.lk.ijse.farm.dto.OrderDto;
 import edu.lk.ijse.farm.entity.CustomerEntity;
-import edu.lk.ijse.farm.entity.ItemsEntity;
-import edu.lk.ijse.farm.entity.OrderDetailsEntity;
-import edu.lk.ijse.farm.entity.OrdersEntity;
+import edu.lk.ijse.farm.entity.ItemEntity;
+import edu.lk.ijse.farm.entity.OrderDetailEntity;
+import edu.lk.ijse.farm.entity.OrderEntity;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -33,9 +33,9 @@ public class OrderBOImpl implements OrderBO {
 
     @Override
     public boolean placeOrder(OrderDto orderDTO) throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-
+        Connection connection = null;
         try {
+            connection = DBConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
 
             Optional<CustomerEntity> optionalCustomer = customerDAO.findById(orderDTO.getCustomerId());
@@ -43,12 +43,12 @@ public class OrderBOImpl implements OrderBO {
                 throw new NotFoundException("Customer not found");
             }
 
-            OrdersEntity order = new OrdersEntity();
+            OrderEntity order = new OrderEntity();
             order.setOrderId(orderDTO.getOrderId());
-            order.setOrderDate(orderDTO.getDate());
-            order.setTotalPrice(String.valueOf(orderDTO.getTotalAmount()));
+            order.setDate(orderDTO.getDate());
+            order.setTotalAmount(orderDTO.getTotalAmount());
             order.setCustomerId(orderDTO.getCustomerId());
-            order.setOrderStatus(orderDTO.getStatus());
+            order.setStatus(orderDTO.getStatus());
 
             boolean isOrderSaved = orderDAO.save(order);
             if (isOrderSaved) {
@@ -59,10 +59,14 @@ public class OrderBOImpl implements OrderBO {
                 }
             }
         } catch (Exception e) {
-            connection.rollback();
+            if (connection != null) {
+                connection.rollback();
+            }
             return false;
         } finally {
-            connection.setAutoCommit(true);
+            if (connection != null) {
+                connection.setAutoCommit(true);
+            }
         }
 
         return false;
@@ -70,15 +74,15 @@ public class OrderBOImpl implements OrderBO {
 
     private boolean saveDetailsAndUpdateItem(ArrayList<OrderDetailDto> orderDetailsList) throws SQLException, ClassNotFoundException {
         for (OrderDetailDto orderDetailDto : orderDetailsList) {
-            OrderDetailsEntity orderDetailsEntity = new OrderDetailsEntity();
+            OrderDetailEntity orderDetailsEntity = new OrderDetailEntity();
             orderDetailsEntity.setOrderId(orderDetailDto.getOrderId());
-            orderDetailsEntity.setCustomerId(orderDetailDto.getCustomer_Id());
-            orderDetailsEntity.setItemId(orderDetailDto.getItemCode());
+            orderDetailsEntity.setCustomerId(orderDetailDto.getCustomerId());
+            orderDetailsEntity.setItemCode(orderDetailDto.getItemCode());
             orderDetailsEntity.setQuantity(orderDetailDto.getQuantity());
             orderDetailsEntity.setTotalPrice(orderDetailDto.getTotalPrice());
-            orderDetailsEntity.setPriceOf1KG(orderDetailDto.getPrice_of_1KG());
+            orderDetailsEntity.setPriceOf1KG(orderDetailDto.getPriceOf1KG());
 
-            Optional<ItemsEntity> optionalItem = itemsDAO.getById(orderDetailDto.getItemCode());
+            Optional<ItemEntity> optionalItem = itemsDAO.getById(orderDetailDto.getItemCode());
             if (optionalItem.isEmpty()) {
                 throw new NotFoundException("Item not found");
             }

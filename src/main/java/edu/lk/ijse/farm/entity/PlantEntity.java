@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class PlantEntity {
     private String plantId;
     private String plantType;
-    private int numberOfPlants;
-    private String growthStages;
-    private int lifeTimeDays;
+    private int numberOfPlant;
+    private String growthStage;
+    private int lifeTimeDate;
 }

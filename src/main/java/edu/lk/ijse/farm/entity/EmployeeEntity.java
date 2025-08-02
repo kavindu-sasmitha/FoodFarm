@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EmployeeEntity{
     private String employeeId;
-    private String employeeName;
-    private String Contact;
-    private String joinDate;
-    private String Email;
+    private String name;
+    private String contact;
+    private String joiningDate;
+    private String email;
     private String position;
 }

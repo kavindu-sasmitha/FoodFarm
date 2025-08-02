@@ -2,9 +2,7 @@ package edu.lk.ijse.farm.dao.custom.impl;
 
 import edu.lk.ijse.farm.dao.SQlUtil;
 import edu.lk.ijse.farm.dao.custom.OrderDetailsDAO;
-import edu.lk.ijse.farm.entity.CustomerEntity;
-import edu.lk.ijse.farm.entity.EmployeeEntity;
-import edu.lk.ijse.farm.entity.OrderDetailsEntity;
+import edu.lk.ijse.farm.entity.OrderDetailEntity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,11 +13,11 @@ import java.util.Optional;
 public class OrderDetailsDAOImpl implements OrderDetailsDAO {
 
     @Override
-    public List<OrderDetailsEntity> getAll() throws SQLException, ClassNotFoundException {
+    public List<OrderDetailEntity> getAll() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQlUtil.execute("SELECT * FROM Order_Details");
-        List<OrderDetailsEntity> orderDetailsList = new ArrayList<>();
+        List<OrderDetailEntity> orderDetailsList = new ArrayList<>();
         while (resultSet.next()) {
-            OrderDetailsEntity orderDetails = new OrderDetailsEntity(
+            OrderDetailEntity orderDetails = new OrderDetailEntity(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
@@ -34,17 +32,23 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
     }
 
     @Override
-    public Optional<OrderDetailsEntity> getById(String id) throws SQLException, ClassNotFoundException {
+    public Optional<OrderDetailEntity> getById(String id) throws SQLException, ClassNotFoundException {
         return Optional.empty();
     }
 
     @Override
-    public boolean save(OrderDetailsEntity orderDetailsEntity) throws SQLException, ClassNotFoundException {
-        return false;
+    public boolean save(OrderDetailEntity orderDetailEntity) throws SQLException, ClassNotFoundException {
+        return SQlUtil.execute("INSERT INTO Order_Details (orderId, customerId, itemCode, priceOf1KG, quantity, totalPrice) VALUES (?,?,?,?,?,?)",
+                orderDetailEntity.getOrderId(),
+                orderDetailEntity.getCustomerId(),
+                orderDetailEntity.getItemCode(),
+                orderDetailEntity.getPriceOf1KG(),
+                orderDetailEntity.getQuantity(),
+                orderDetailEntity.getTotalPrice());
     }
 
     @Override
-    public boolean update(OrderDetailsEntity orderDetailsEntity) throws SQLException, ClassNotFoundException {
+    public boolean update(OrderDetailEntity orderDetailEntity) throws SQLException, ClassNotFoundException {
         return false;
     }
 
@@ -56,7 +60,7 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
 
     @Override
     public String getNextID() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet =SQlUtil.execute("SELECT Order_Id FROM Order_Details ORDER BY Order_Id DESC LIMIT 1");
+        ResultSet resultSet =SQlUtil.execute("SELECT orderId FROM Order_Details ORDER BY orderId DESC LIMIT 1");
         char tableChar = 'D';
         if (resultSet.next()) {
             String lastId = resultSet.getString(1);
@@ -70,7 +74,7 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
     }
 
     @Override
-    public List<OrderDetailsEntity> search(String keyword) throws SQLException, ClassNotFoundException {
+    public List<OrderDetailEntity> search(String keyword) throws SQLException, ClassNotFoundException {
         return List.of();
     }
 }

@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrdersEntity {
+public class OrderDetailEntity {
     private String orderId;
-    private String OrderDate;
-    private String TotalPrice;
     private String customerId;
-    private String orderStatus;
+    private String itemCode;
+    private double priceOf1KG;
+    private int quantity;
+    private double totalPrice;
 }

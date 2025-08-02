@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemsEntity {
-    private String itemId;
+public class ItemEntity {
+    private String itemCode;
     private String itemName;
     private String manufactureDate;
-    private String ExpireDate;
-    private double unitePrice;
-    private int quantity;
+    private String expireDate;
+    private double unitPrice;
+    private int qtyOnHand;
 }

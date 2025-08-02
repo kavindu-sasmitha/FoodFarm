@@ -10,7 +10,7 @@ import lombok.*;
 public class PlantDto {
     private String plantId;
     private String plantType;
-    private int NumberOfPlant;
+    private int numberOfPlant;
     private String growthStage;
     private int lifeTimeDate;
 

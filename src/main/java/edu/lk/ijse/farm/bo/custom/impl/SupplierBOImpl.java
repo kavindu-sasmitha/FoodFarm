@@ -3,7 +3,7 @@ package edu.lk.ijse.farm.bo.custom.impl;
 import edu.lk.ijse.farm.bo.custom.SupplierBO;
 import edu.lk.ijse.farm.bo.exception.InUseException;
 import edu.lk.ijse.farm.bo.exception.NotFoundException;
-import edu.lk.ijse.farm.bo.util.EntitiyDTOConvertor;
+import edu.lk.ijse.farm.bo.util.EntityDTOConverter;
 import edu.lk.ijse.farm.dao.DAOFactory;
 import edu.lk.ijse.farm.dao.custom.DAOType;
 import edu.lk.ijse.farm.dao.custom.SupplierDAO;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class SupplierBOImpl implements SupplierBO {
 
     private final SupplierDAO supplierDAO = DAOFactory.getInstance().getDAO(DAOType.SUPPLIERDAO);
-    private final EntitiyDTOConvertor convertor = new EntitiyDTOConvertor();
+    private final EntityDTOConverter convertor = new EntityDTOConverter();
 
     @Override
     public String saveSupplier(SupplierDto supplierDto) throws SQLException, ClassNotFoundException {

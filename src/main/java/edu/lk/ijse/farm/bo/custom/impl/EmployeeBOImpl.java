@@ -4,7 +4,7 @@ import edu.lk.ijse.farm.bo.custom.EmployeeBO;
 import edu.lk.ijse.farm.bo.exception.DuplicateException;
 import edu.lk.ijse.farm.bo.exception.InUseException;
 import edu.lk.ijse.farm.bo.exception.NotFoundException;
-import edu.lk.ijse.farm.bo.util.EntitiyDTOConvertor;
+import edu.lk.ijse.farm.bo.util.EntityDTOConverter;
 import edu.lk.ijse.farm.dao.DAOFactory;
 import edu.lk.ijse.farm.dao.custom.EmployeeDAO;
 import edu.lk.ijse.farm.dao.custom.DAOType;
@@ -20,7 +20,7 @@ import java.util.Optional;
 public class EmployeeBOImpl implements EmployeeBO {
 
     private final EmployeeDAO employeeDAO = DAOFactory.getInstance().getDAO(DAOType.EMPLOYEEDAO);
-    private final EntitiyDTOConvertor convertor = new EntitiyDTOConvertor();
+    private final EntityDTOConverter convertor = new EntityDTOConverter();
 
     @Override
     public String saveEmployee(EmployeeDto employeeDto) throws SQLException, ClassNotFoundException {

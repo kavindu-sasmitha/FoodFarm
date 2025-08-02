@@ -2,9 +2,7 @@ package edu.lk.ijse.farm.dao.custom.impl;
 
 import edu.lk.ijse.farm.dao.SQlUtil;
 import edu.lk.ijse.farm.dao.custom.ItemsDAO;
-import edu.lk.ijse.farm.entity.CustomerEntity;
-import edu.lk.ijse.farm.entity.EmployeeEntity;
-import edu.lk.ijse.farm.entity.ItemsEntity;
+import edu.lk.ijse.farm.entity.ItemEntity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,17 +14,17 @@ public class ItemsDAOImpl implements ItemsDAO {
     @Override
     public boolean reduceqty(String id, int qty) throws SQLException, ClassNotFoundException {
         return SQlUtil.execute(
-                "update items set Quantity = quantity-? where Item_Id=?",
+                "update items set qtyOnHand = qtyOnHand-? where itemCode=?",
                 qty,id
         );
     }
 
     @Override
-    public List<ItemsEntity> getAll() throws SQLException, ClassNotFoundException {
+    public List<ItemEntity> getAll() throws SQLException, ClassNotFoundException {
         ResultSet rst=SQlUtil.execute("SELECT * FROM items");
-        List<ItemsEntity> list=new ArrayList<>();
+        List<ItemEntity> list=new ArrayList<>();
         while(rst.next()){
-            ItemsEntity itemsEntity=new ItemsEntity(
+            ItemEntity itemEntity =new ItemEntity(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
@@ -34,16 +32,16 @@ public class ItemsDAOImpl implements ItemsDAO {
                     rst.getDouble(5),
                     rst.getInt(6)
             );
-            list.add(itemsEntity);
+            list.add(itemEntity);
         }
         return list;
     }
 
     @Override
-    public Optional<ItemsEntity> getById(String id) throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = SQlUtil.execute("SELECT * FROM Items WHERE Item_Id=?", id);
+    public Optional<ItemEntity> getById(String id) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = SQlUtil.execute("SELECT * FROM Items WHERE itemCode=?", id);
         if (resultSet.next()) {
-            return Optional.of(new ItemsEntity(
+            return Optional.of(new ItemEntity(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
@@ -56,36 +54,36 @@ public class ItemsDAOImpl implements ItemsDAO {
     }
 
     @Override
-    public boolean save(ItemsEntity itemsEntity) throws SQLException, ClassNotFoundException {
-        return SQlUtil.execute("INSERT INTO Items (Item_Id,Item_Name,Manufacture_Date,Expire_Date,Price_Per_Unite,Quantity) VALUES (?, ?, ?, ?, ?, ?)",
-                itemsEntity.getItemId(),
-                itemsEntity.getItemName(),
-                itemsEntity.getManufactureDate(),
-                itemsEntity.getExpireDate(),
-                itemsEntity.getUnitePrice(),
-                itemsEntity.getQuantity());
+    public boolean save(ItemEntity itemEntity) throws SQLException, ClassNotFoundException {
+        return SQlUtil.execute("INSERT INTO Items (itemCode,itemName,manufactureDate,expireDate,unitPrice,qtyOnHand) VALUES (?, ?, ?, ?, ?, ?)",
+                itemEntity.getItemCode(),
+                itemEntity.getItemName(),
+                itemEntity.getManufactureDate(),
+                itemEntity.getExpireDate(),
+                itemEntity.getUnitPrice(),
+                itemEntity.getQtyOnHand());
     }
 
     @Override
-    public boolean update(ItemsEntity itemsEntity) throws SQLException, ClassNotFoundException {
-        return SQlUtil.execute("UPDATE Items SET Item_Name = ?,Manufacture_Date = ?,Expire_Date = ?,Price_Per_Unite = ?,Quantity = ? WHERE Item_Id = ?",
-                itemsEntity.getItemName(),
-                itemsEntity.getManufactureDate(),
-                itemsEntity.getExpireDate(),
-                itemsEntity.getUnitePrice(),
-                itemsEntity.getQuantity(),
-                itemsEntity.getItemId());
+    public boolean update(ItemEntity itemEntity) throws SQLException, ClassNotFoundException {
+        return SQlUtil.execute("UPDATE Items SET itemName = ?,manufactureDate = ?,expireDate = ?,unitPrice = ?,qtyOnHand = ? WHERE itemCode = ?",
+                itemEntity.getItemName(),
+                itemEntity.getManufactureDate(),
+                itemEntity.getExpireDate(),
+                itemEntity.getUnitPrice(),
+                itemEntity.getQtyOnHand(),
+                itemEntity.getItemCode());
     }
 
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-       return SQlUtil.execute("DELETE FROM Items WHERE Item_Id=?",id);
+       return SQlUtil.execute("DELETE FROM Items WHERE itemCode=?",id);
     }
 
     @Override
     public String getNextID() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet =SQlUtil.execute("SELECT Item_Id FROM Items ORDER BY Items_Id DESC LIMIT 1");
+        ResultSet resultSet =SQlUtil.execute("SELECT itemCode FROM Items ORDER BY itemCode DESC LIMIT 1");
         char tableChar = 'I';
         if (resultSet.next()) {
             String lastId = resultSet.getString(1);
@@ -99,16 +97,16 @@ public class ItemsDAOImpl implements ItemsDAO {
     }
 
     @Override
-    public List<ItemsEntity> search(String keyword) throws SQLException, ClassNotFoundException {
-        ResultSet rst = SQlUtil.execute("SELECT * FROM Items WHERE Item_Id LIKE ? OR Item_Name LIKE ? OR Manufacture_Date LIKE ? OR Expire_Date LIKE ? OR Price_Per_Unite LIKE ? OR Quantity LIKE ?",
+    public List<ItemEntity> search(String keyword) throws SQLException, ClassNotFoundException {
+        ResultSet rst = SQlUtil.execute("SELECT * FROM Items WHERE itemCode LIKE ? OR itemName LIKE ? OR manufactureDate LIKE ? OR expireDate LIKE ? OR unitPrice LIKE ? OR qtyOnHand LIKE ?",
                 "%" + keyword + "%",
                 "%" + keyword + "%",
                 "%" + keyword + "%",
                 "%" + keyword + "%",
                 "%" + keyword + "%");
-        List<ItemsEntity> list = new ArrayList<>();
+        List<ItemEntity> list = new ArrayList<>();
         while (rst.next()) {
-            ItemsEntity itemsEntity = new ItemsEntity(
+            ItemEntity itemEntity = new ItemEntity(
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
@@ -116,7 +114,7 @@ public class ItemsDAOImpl implements ItemsDAO {
                     rst.getDouble(5),
                     rst.getInt(6)
             );
-            list.add(itemsEntity);
+            list.add(itemEntity);
         }
         return list;
     }

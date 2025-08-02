@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerEntity {
-    private String CustomerId;
-    private String CustomerName;
-    private String Contact;
+    private String customerId;
+    private String name;
+    private String contact;
     private String email;
     private String address;
 }
