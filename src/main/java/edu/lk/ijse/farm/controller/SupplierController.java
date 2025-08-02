@@ -1,10 +1,12 @@
 package edu.lk.ijse.farm.controller;
 
 
+import edu.lk.ijse.farm.bo.custom.SupplierBO;
+import edu.lk.ijse.farm.bo.custom.impl.SupplierBOImpl;
 import edu.lk.ijse.farm.dto.SupplierDto;
 import edu.lk.ijse.farm.dto.tm.EmployeeTM;
 import edu.lk.ijse.farm.dto.tm.SupplierTM;
-import edu.lk.ijse.farm.model.SupplierModel;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -92,7 +94,8 @@ public class SupplierController implements Initializable {
     @FXML
     private TextField txtSearch;
 
-  private final SupplierModel supplierModel=new SupplierModel();
+//  private final SupplierModel supplierModel=new SupplierModel();
+  private final SupplierBO supplierBO=new SupplierBOImpl();
 
     public SupplierController() throws Exception {
     }
@@ -105,7 +108,7 @@ public class SupplierController implements Initializable {
             return;
         }
         try {
-            List<SupplierDto> searchResults = supplierModel.searchSupplier(searchText);
+            List<SupplierDto> searchResults = supplierBO.searchSupplier(searchText);
             if (searchResults.isEmpty()) {
                 showError("No Results", "No matching suppliers found.");
                 return;
@@ -140,7 +143,7 @@ public class SupplierController implements Initializable {
             SupplierDto supplierDto = new SupplierDto(id, name, address, contact, item);
 
             try {
-                String result = supplierModel.saveSupplier(supplierDto);
+                String result = supplierBO.saveSupplier(supplierDto);
                 if (result.equalsIgnoreCase("Supplier saved successfully")) {
                     resetPage();
                     clearInputFields();
@@ -189,9 +192,10 @@ public class SupplierController implements Initializable {
             try {
                 String id = lblId.getText();
                 if (!id.isEmpty()) {
-                    String result = supplierModel.deleteSupplier(id);
+                    String result = supplierBO.deleteSupplier(id);
                     if (result.equalsIgnoreCase("Supplier deleted successfully")) {
-                        showSuccess("Supplier Deleted", "Supplier details have been deleted successfully!");
+                        showSuccess("Supplier Deleted",
+                                "Supplier details have been deleted successfully!");
                         resetPage();
                         loadTableData();
                     } else {
@@ -237,7 +241,7 @@ public class SupplierController implements Initializable {
             }
 
             SupplierDto supplierDto = new SupplierDto(id, name, contact, address, item);
-            String result = supplierModel.updateSupplier(supplierDto);
+            String result = supplierBO.updateSupplier(supplierDto);
             boolean isUpdate = result.equalsIgnoreCase("Supplier updated successfully");
 
             if (isUpdate) {
@@ -248,9 +252,6 @@ public class SupplierController implements Initializable {
             } else {
                 showError("Update Failed", "Failed to update Supplier details.");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            showError("Database Error", "Unable to update Supplier details due to a database issue.");
         } catch (Exception e) {
             e.printStackTrace();
             showError("Unexpected Error", "An error occurred.\nPlease contact support.");
@@ -281,7 +282,7 @@ public class SupplierController implements Initializable {
 
     private void loadNextId() {
         try {
-            String nextId = supplierModel.getNextID();
+            String nextId = supplierBO.getNextID();
             if (nextId != null) {
                 lbId.setText(nextId);
             }else{
@@ -306,13 +307,14 @@ public class SupplierController implements Initializable {
             loadNextId();
             loadTableData();
         } catch (Exception e) {
-            showError("Initialization Error", "Failed to initialize the data.\nPlease try restarting the application.");
+            showError("Initialization Error",
+                    "Failed to initialize the data.\nPlease try restarting the application.");
         }
     }
     private void loadTableData() {
 
         try {
-            ArrayList<SupplierDto> allSupplier = supplierModel.getAllSupplier();
+            ArrayList<SupplierDto> allSupplier = supplierBO.getAllSupplier();
 
 
            ObservableList<SupplierTM> supplierTMS = FXCollections.observableArrayList();

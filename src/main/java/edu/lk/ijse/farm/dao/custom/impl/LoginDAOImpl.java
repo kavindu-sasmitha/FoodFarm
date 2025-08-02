@@ -2,6 +2,8 @@ package edu.lk.ijse.farm.dao.custom.impl;
 
 import edu.lk.ijse.farm.dao.SQlUtil;
 import edu.lk.ijse.farm.dao.custom.LoginDAO;
+import edu.lk.ijse.farm.entity.CustomerEntity;
+import edu.lk.ijse.farm.entity.EmployeeEntity;
 import edu.lk.ijse.farm.entity.LoginEntity;
 
 import java.sql.ResultSet;
@@ -21,14 +23,15 @@ public class LoginDAOImpl implements LoginDAO {
     }
 
     @Override
-    public boolean save(LoginEntity loginEntity) throws SQLException {
+    public boolean save(LoginEntity loginEntity) throws SQLException, ClassNotFoundException {
         return false;
     }
 
     @Override
-    public boolean update(LoginEntity loginEntity) throws SQLException {
+    public boolean update(LoginEntity loginEntity) throws SQLException, ClassNotFoundException {
         return false;
     }
+
 
     @Override
     public boolean delete(String id) throws SQLException {
@@ -47,7 +50,7 @@ public class LoginDAOImpl implements LoginDAO {
 
     @Override
     public boolean login(String inputName, String inputPassword) throws SQLException, ClassNotFoundException {
-        ResultSet resultSet= SQlUtil.execute("SELECT * FROM User WHERE User_Name = ? AND User_Password = ?",
+        ResultSet resultSet= SQlUtil.execute("SELECT * FROM User WHERE User_Name= ? AND User_Password= ?",
                 inputName, inputPassword);
         if (resultSet.next()) {
             return true;

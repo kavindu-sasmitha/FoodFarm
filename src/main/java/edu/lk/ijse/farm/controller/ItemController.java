@@ -1,8 +1,13 @@
 package edu.lk.ijse.farm.controller;
 
+import edu.lk.ijse.farm.bo.BOFactory;
+import edu.lk.ijse.farm.bo.BOTypes;
+import edu.lk.ijse.farm.bo.custom.CustomerBO;
+import edu.lk.ijse.farm.bo.custom.ItemBO;
+import edu.lk.ijse.farm.bo.custom.impl.ItemBOImpl;
 import edu.lk.ijse.farm.dto.ItemDto;
 import edu.lk.ijse.farm.dto.tm.ItemTm;
-import edu.lk.ijse.farm.model.ItemModel;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -60,7 +65,8 @@ public class ItemController implements Initializable {
     @FXML
     private TableColumn<ItemTm, Integer> colQuantity;
 
-    private final ItemModel itemModel = new ItemModel();
+    //private final ItemModel itemModel = new ItemModel();
+    private final ItemBO itemBO= BOFactory.getInstance().getBO(BOTypes.ITEMBO);
 
     public ItemController() {
     }
@@ -97,16 +103,13 @@ public class ItemController implements Initializable {
             ItemDto itemDto = new ItemDto(itemId, name, mfd, exp, Double.parseDouble(price), Integer.parseInt(quantity));
 
             try {
-                String saveResult = itemModel.saveItem(itemDto);
+                String saveResult = itemBO.saveItem(itemDto);
                 if ("Item added successfully".equals(saveResult)) {
                     resetPage();
                     showSuccess("Item Saved", "Item details have been saved successfully!");
                 } else {
                     showError("Save Failed", "Failed to save item details.");
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                showError("Database Error", "Unable to save item details due to a database error.");
             } catch (Exception e) {
                 e.printStackTrace();
                 showError("Error", "An unexpected error occurred. Please contact support.");
@@ -125,7 +128,7 @@ public class ItemController implements Initializable {
         if(respons.isPresent()&&respons.get()==ButtonType.YES){
             try{
                 String itemId=lblId.getText();
-                boolean isDeleted = Boolean.parseBoolean(itemModel.deleteItems(itemId));
+                boolean isDeleted = Boolean.parseBoolean(itemBO.deleteItems(itemId));
                 if(!isDeleted){
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION,"Item Deleted").show();
@@ -153,16 +156,13 @@ public class ItemController implements Initializable {
             ItemDto itemDto = new ItemDto(itemId, name, mfd, exp, Double.parseDouble(price), Integer.parseInt(quantity));
 
             try {
-                boolean isUpdated = Boolean.parseBoolean(itemModel.updateItem(itemDto));
+                boolean isUpdated = Boolean.parseBoolean(itemBO.updateItem(itemDto));
                 if (!isUpdated) {
                     resetPage();
                     showSuccess("Item Updated", "Item details have been updated successfully!");
                 } else {
                     showError("Update Failed", "Failed to update item details.");
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                showError("Database Error", "Unable to update item details due to a database error.");
             } catch (Exception e) {
                 e.printStackTrace();
                 showError("Error", "An unexpected error occurred. Please contact support.");
@@ -221,7 +221,7 @@ public class ItemController implements Initializable {
 
     private void loadTableData() {
         try {
-            ArrayList<ItemDto> allItems = itemModel.getAllItems();
+            ArrayList<ItemDto> allItems = itemBO.getAllItems();
             ObservableList<ItemTm> itemTMS = FXCollections.observableArrayList();
             
 
@@ -257,7 +257,7 @@ public class ItemController implements Initializable {
         }
 
         try {
-            ItemDto itemDto = itemModel.searchItems(searchText);
+            ItemDto itemDto = itemBO.searchItems(searchText);
             if (itemDto != null) {
                 ObservableList<ItemTm> itemTMS = FXCollections.observableArrayList();
                 itemTMS.add(new ItemTm(
@@ -303,7 +303,8 @@ public class ItemController implements Initializable {
     }
     private void loadNextId() {
         try {
-            String nextId = itemModel.getNextID();
+            CustomerBO itemModel;
+            String nextId = itemBO.getNextID();
             if (nextId != null) {
                 lblId.setText(nextId);
             }else{

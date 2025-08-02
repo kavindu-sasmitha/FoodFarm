@@ -1,10 +1,10 @@
 package edu.lk.ijse.farm.dao.custom.impl;
 
 import edu.lk.ijse.farm.dao.SQlUtil;
-import edu.lk.ijse.farm.dao.custom.OrderDAO;
 import edu.lk.ijse.farm.dao.custom.OrderDetailsDAO;
+import edu.lk.ijse.farm.entity.CustomerEntity;
+import edu.lk.ijse.farm.entity.EmployeeEntity;
 import edu.lk.ijse.farm.entity.OrderDetailsEntity;
-import edu.lk.ijse.farm.entity.OrdersEntity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,6 +47,7 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO {
     public boolean update(OrderDetailsEntity orderDetailsEntity) throws SQLException, ClassNotFoundException {
         return false;
     }
+
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {

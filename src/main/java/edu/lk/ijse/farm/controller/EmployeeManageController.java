@@ -1,10 +1,9 @@
 package edu.lk.ijse.farm.controller;
 
-import edu.lk.ijse.farm.dto.CustomerDto;
+import edu.lk.ijse.farm.bo.custom.EmployeeBO;
+import edu.lk.ijse.farm.bo.custom.impl.EmployeeBOImpl;
 import edu.lk.ijse.farm.dto.EmployeeDto;
-import edu.lk.ijse.farm.dto.tm.CustomerTM;
 import edu.lk.ijse.farm.dto.tm.EmployeeTM;
-import edu.lk.ijse.farm.model.EmployeeModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -93,7 +92,8 @@ public class EmployeeManageController implements Initializable {
     @FXML
     private TextField txtSearch;
 
-    private final EmployeeModel employeeModel = new EmployeeModel();
+    //private final EmployeeModel employeeModel = new EmployeeModel();
+    private final EmployeeBO employeeBO=new EmployeeBOImpl();
 
     @FXML
 
@@ -139,7 +139,7 @@ public class EmployeeManageController implements Initializable {
             EmployeeDto employeeDto = new EmployeeDto(employeeId, name, contact, date, email, position);
 
             try {
-                String result = employeeModel.updateEmployee(employeeDto);
+                String result = employeeBO.pdateEmployee(employeeDto);
                 boolean isUpdated = result != null && result.equalsIgnoreCase("Employee updated successfully");
                 if (isUpdated) {
                     resetPage();
@@ -167,7 +167,7 @@ public class EmployeeManageController implements Initializable {
             EmployeeDto employeeDto = new EmployeeDto(employeeId, name, contact, date, email, position);
 
             try {
-                String result = employeeModel.saveEmployee(employeeDto);
+                String result = employeeBO.saveEmployee(employeeDto);
                 if ("Employee added successfully".equalsIgnoreCase(result)) {
                     resetPage();
                     loadTableData();
@@ -195,7 +195,7 @@ public class EmployeeManageController implements Initializable {
         if (buttonType.get() == ButtonType.YES) {
             try {
                 String employeeId = lblId.getText();
-                String result = employeeModel.deleteEmployee(employeeId);
+                String result = employeeBO.deleteEmployee(employeeId);
                 boolean isDeleted = "Employee deleted successfully".equalsIgnoreCase(result);
                 loadTableData();
                 
@@ -224,7 +224,7 @@ public class EmployeeManageController implements Initializable {
         }
 
         try {
-            ArrayList<EmployeeDto> searchResult = new ArrayList<>(employeeModel.searchEmployee(searchText));
+            ArrayList<EmployeeDto> searchResult = new ArrayList<>(employeeBO.searchEmployee(searchText));
             ObservableList<EmployeeTM> employeeTMS = FXCollections.observableArrayList();
 
             for (EmployeeDto employeeDto : searchResult) {
@@ -266,7 +266,7 @@ public class EmployeeManageController implements Initializable {
 
     private void loadNextId() {
         try {
-            String nextId = employeeModel.getNextID();
+            String nextId = employeeBO.getNextID();
             if (nextId != null) {
                 lblId.setText(nextId);
             } else {
@@ -281,7 +281,7 @@ public class EmployeeManageController implements Initializable {
 
     private void loadTableData() {
         try {
-            ArrayList<EmployeeDto> allEmployee = employeeModel.getAllEmployee();
+            ArrayList<EmployeeDto> allEmployee = employeeBO.getAllEmployee();
 
             ObservableList<EmployeeTM> employeeTMS = FXCollections.observableArrayList();
 

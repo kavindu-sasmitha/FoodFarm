@@ -1,6 +1,9 @@
 package edu.lk.ijse.farm.controller;
 
-import edu.lk.ijse.farm.model.LoginModel;
+
+import edu.lk.ijse.farm.bo.BOFactory;
+import edu.lk.ijse.farm.bo.BOTypes;
+import edu.lk.ijse.farm.bo.custom.LoginBO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -61,6 +64,7 @@ public class FrogetPasswordController {
      Random random = new Random();
 
     private  String otp = String.format("%06d", random.nextInt(1000000));
+    private final LoginBO loginBO= BOFactory.getInstance().getBO(BOTypes.LOGINBO);
 
     @FXML
     void btnResetPasswordOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
@@ -70,8 +74,8 @@ public class FrogetPasswordController {
             return;
         }
 
-        LoginModel loginModel = new LoginModel();
-        boolean isUpdated = loginModel.updateUserPassword(txtEmail.getText(), txtNewPassword.getText());
+
+        boolean isUpdated = loginBO.updatePassword(txtEmail.getText(), txtNewPassword.getText());
 
         if (!isUpdated) {
             new Alert(Alert.AlertType.INFORMATION, "Password reset successful!").showAndWait();

@@ -2,6 +2,8 @@ package edu.lk.ijse.farm.dao.custom.impl;
 
 import edu.lk.ijse.farm.dao.SQlUtil;
 import edu.lk.ijse.farm.dao.custom.SupplierDAO;
+import edu.lk.ijse.farm.entity.CustomerEntity;
+import edu.lk.ijse.farm.entity.EmployeeEntity;
 import edu.lk.ijse.farm.entity.SupplierEntity;
 
 import java.sql.ResultSet;
@@ -63,6 +65,7 @@ public class SupplierDAOImpl implements SupplierDAO {
                 supplierEntity.getSupplierItem(),
                 supplierEntity.getSupplierId());
     }
+
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {

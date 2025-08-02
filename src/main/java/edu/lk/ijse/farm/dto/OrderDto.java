@@ -1,8 +1,10 @@
 package edu.lk.ijse.farm.dto;
 
+import edu.lk.ijse.farm.entity.OrderDetailsEntity;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,4 +18,5 @@ public class OrderDto {
     private double totalAmount;
     private String status="Pending";
     private ArrayList<OrderDetailDto> orderDetails;
+
 }

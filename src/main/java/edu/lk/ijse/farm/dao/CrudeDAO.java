@@ -1,5 +1,8 @@
 package edu.lk.ijse.farm.dao;
 
+import edu.lk.ijse.farm.entity.CustomerEntity;
+import edu.lk.ijse.farm.entity.EmployeeEntity;
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;

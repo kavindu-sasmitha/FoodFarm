@@ -1,6 +1,8 @@
 package edu.lk.ijse.farm.controller;
 
-import edu.lk.ijse.farm.model.LoginModel;
+import edu.lk.ijse.farm.bo.BOFactory;
+import edu.lk.ijse.farm.bo.BOTypes;
+import edu.lk.ijse.farm.bo.custom.LoginBO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -66,13 +68,13 @@ public class LoginController {
 
     }
 
-    @FXML
-    LoginModel loginModel = new LoginModel();
+   private final LoginBO loginBO=BOFactory.getInstance().getBO(BOTypes.LOGINBO);
+
 
     @FXML
     void btnUserLoginOnAction(ActionEvent event) {
         try {
-            boolean isLoggedIn = loginModel.logIn(txtName.getText(), txtPassword.getText());
+            boolean isLoggedIn = loginBO.login(txtName.getText(), txtPassword.getText());
             if (isLoggedIn) {
                 loadView("/view/dashboard/DashBoardview.fxml",ancPage1);
             } else {

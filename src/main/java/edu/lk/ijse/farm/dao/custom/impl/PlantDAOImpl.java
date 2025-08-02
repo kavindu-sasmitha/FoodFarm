@@ -2,8 +2,9 @@ package edu.lk.ijse.farm.dao.custom.impl;
 
 import edu.lk.ijse.farm.dao.SQlUtil;
 import edu.lk.ijse.farm.dao.custom.PlantDAO;
+import edu.lk.ijse.farm.entity.CustomerEntity;
+import edu.lk.ijse.farm.entity.EmployeeEntity;
 import edu.lk.ijse.farm.entity.PlantEntity;
-import edu.lk.ijse.farm.entity.SupplierEntity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -64,6 +65,7 @@ public class PlantDAOImpl implements PlantDAO {
                 plantEntity.getLifeTimeDays(),
                 plantEntity.getPlantId());
     }
+
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {

@@ -6,5 +6,5 @@ import edu.lk.ijse.farm.entity.ItemsEntity;
 import java.sql.SQLException;
 
 public interface ItemsDAO extends CrudeDAO<ItemsEntity> {
-    boolean reduceqty(ItemsEntity itemsEntity) throws SQLException, ClassNotFoundException;
+    boolean reduceqty(String id,int qty) throws SQLException, ClassNotFoundException;
 }

@@ -1,7 +1,10 @@
 package edu.lk.ijse.farm.controller;
 
+import edu.lk.ijse.farm.bo.BOFactory;
+import edu.lk.ijse.farm.bo.BOTypes;
+import edu.lk.ijse.farm.bo.custom.UserBO;
 import edu.lk.ijse.farm.dto.UserDto;
-import edu.lk.ijse.farm.model.UserModel;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,7 +46,8 @@ public class RegisterUserController {
     private TextField txtPassword1;
 
     @FXML
-    UserModel userModel = new UserModel();
+   // UserModel userModel = new UserModel();
+    private final UserBO userBO= BOFactory.getInstance().getBO(BOTypes.USERBO);
 
     @FXML
     void btnRegisterUserOnAction(ActionEvent event) {
@@ -54,7 +58,7 @@ public class RegisterUserController {
 
 
             UserDto userDto = new UserDto(0, userName, password,Email); // Placeholder for email
-            String result = userModel.saveUser(userDto);
+            boolean result = userBO.saveUser(userDto);
             System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();

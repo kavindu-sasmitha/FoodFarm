@@ -2,8 +2,9 @@ package edu.lk.ijse.farm.dao.custom.impl;
 
 import edu.lk.ijse.farm.dao.SQlUtil;
 import edu.lk.ijse.farm.dao.custom.ItemsDAO;
+import edu.lk.ijse.farm.entity.CustomerEntity;
+import edu.lk.ijse.farm.entity.EmployeeEntity;
 import edu.lk.ijse.farm.entity.ItemsEntity;
-import edu.lk.ijse.farm.entity.SupplierEntity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,17 +14,16 @@ import java.util.Optional;
 
 public class ItemsDAOImpl implements ItemsDAO {
     @Override
-    public boolean reduceqty(ItemsEntity itemsEntity) throws SQLException, ClassNotFoundException {
+    public boolean reduceqty(String id, int qty) throws SQLException, ClassNotFoundException {
         return SQlUtil.execute(
                 "update items set Quantity = quantity-? where Item_Id=?",
-                itemsEntity.getQuantity(),
-                itemsEntity.getItemId()
+                qty,id
         );
     }
 
     @Override
     public List<ItemsEntity> getAll() throws SQLException, ClassNotFoundException {
-        ResultSet rst=SQlUtil.execute("select * from Items");
+        ResultSet rst=SQlUtil.execute("SELECT * FROM items");
         List<ItemsEntity> list=new ArrayList<>();
         while(rst.next()){
             ItemsEntity itemsEntity=new ItemsEntity(
@@ -41,7 +41,7 @@ public class ItemsDAOImpl implements ItemsDAO {
 
     @Override
     public Optional<ItemsEntity> getById(String id) throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = SQlUtil.execute("SELECT * FROM Items WHERE Item_Id = ?", id);
+        ResultSet resultSet = SQlUtil.execute("SELECT * FROM Items WHERE Item_Id=?", id);
         if (resultSet.next()) {
             return Optional.of(new ItemsEntity(
                     resultSet.getString(1),
@@ -77,6 +77,7 @@ public class ItemsDAOImpl implements ItemsDAO {
                 itemsEntity.getItemId());
     }
 
+
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
        return SQlUtil.execute("DELETE FROM Items WHERE Item_Id=?",id);
@@ -84,7 +85,7 @@ public class ItemsDAOImpl implements ItemsDAO {
 
     @Override
     public String getNextID() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet =SQlUtil.execute("SELECT Supplier_Id FROM Supplier ORDER BY customer_id DESC LIMIT 1");
+        ResultSet resultSet =SQlUtil.execute("SELECT Item_Id FROM Items ORDER BY Items_Id DESC LIMIT 1");
         char tableChar = 'I';
         if (resultSet.next()) {
             String lastId = resultSet.getString(1);

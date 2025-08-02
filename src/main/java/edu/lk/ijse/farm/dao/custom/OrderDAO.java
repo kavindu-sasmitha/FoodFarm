@@ -4,5 +4,5 @@ import edu.lk.ijse.farm.dao.CrudeDAO;
 import edu.lk.ijse.farm.entity.OrdersEntity;
 
 public interface OrderDAO extends CrudeDAO <OrdersEntity>{
-    boolean reduseqty(OrdersEntity ordersEntity);
+    String getLastId();
 }

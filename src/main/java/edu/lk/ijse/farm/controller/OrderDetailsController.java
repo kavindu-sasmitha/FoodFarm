@@ -1,8 +1,11 @@
 package edu.lk.ijse.farm.controller;
 
+import edu.lk.ijse.farm.bo.BOFactory;
+import edu.lk.ijse.farm.bo.BOTypes;
+import edu.lk.ijse.farm.bo.custom.OrderDetailsBO;
 import edu.lk.ijse.farm.dto.OrderDetailDto;
 import edu.lk.ijse.farm.dto.tm.OrderDetailsTM;
-import edu.lk.ijse.farm.model.OrderDetailsModel;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class OrderDetailsController implements Initializable {
+    private final OrderDetailsBO orderDetailsBO= BOFactory.getInstance().getBO(BOTypes.ORDERDETAILSBO);
 
     @FXML
     private TableColumn<OrderDetailsTM, String> colCustomerId;
@@ -63,7 +67,7 @@ private void showError(String title, String message) {
 }
     private void loadTableData() {
         try {
-            ArrayList<OrderDetailDto> allOrders = OrderDetailsModel.getAllOrders();
+            ArrayList<OrderDetailDto> allOrders = OrderDetailsBO.getAllOrders();
 
             ObservableList<OrderDetailsTM> orderTms = FXCollections.observableArrayList();
 

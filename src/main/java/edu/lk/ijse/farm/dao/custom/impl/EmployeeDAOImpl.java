@@ -2,8 +2,8 @@ package edu.lk.ijse.farm.dao.custom.impl;
 
 import edu.lk.ijse.farm.dao.SQlUtil;
 import edu.lk.ijse.farm.dao.custom.EmployeeDAO;
+import edu.lk.ijse.farm.entity.CustomerEntity;
 import edu.lk.ijse.farm.entity.EmployeeEntity;
-import edu.lk.ijse.farm.entity.SupplierEntity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -56,6 +56,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
                 employeeEntity.getEmail(),
                 employeeEntity.getPosition());
     }
+
+
 
     @Override
     public boolean update(EmployeeEntity employeeEntity) throws SQLException, ClassNotFoundException {

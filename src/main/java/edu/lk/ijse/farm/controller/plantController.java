@@ -1,8 +1,10 @@
 package edu.lk.ijse.farm.controller;
 
+import edu.lk.ijse.farm.bo.custom.PlantBO;
+import edu.lk.ijse.farm.bo.custom.impl.PlantBOImpl;
 import edu.lk.ijse.farm.dto.PlantDto;
 import edu.lk.ijse.farm.dto.tm.PlantTM;
-import edu.lk.ijse.farm.model.PlantModel;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -77,7 +79,8 @@ public class plantController implements Initializable {
     @FXML
     private TextField txtSearch;
 
-    PlantModel plantModel=new PlantModel();
+    //PlantModel plantModel=new PlantModel();
+    private final PlantBO plantBO=new PlantBOImpl();
 
     @FXML
     void btnIPlantUpdateOnAction(ActionEvent event) {
@@ -95,7 +98,7 @@ public class plantController implements Initializable {
 
 
             PlantDto plantDto = new PlantDto(id, type, numberOfPlant, growthStages, lifeTimeDays);
-            String result = plantModel.updatePlant(plantDto);
+            String result = plantBO.updatePlant(plantDto);
             boolean isUpdated = result != null && result.equalsIgnoreCase("update");
 
             if (isUpdated) {
@@ -107,12 +110,13 @@ public class plantController implements Initializable {
             }
         } catch (NumberFormatException e) {
             showError("Input Error", "Please ensure that numeric fields are correctly filled.");
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            showError("Database Error", "Unable to update plant details due to a database error.");
         } catch (RuntimeException e) {
             e.printStackTrace();
             showError("Error", "An unexpected error occurred while updating the plant.");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -127,7 +131,7 @@ public class plantController implements Initializable {
         if (response.isPresent() && response.get() == ButtonType.YES) {
             try {
                 String plantId = lblId.getText();
-                String result = plantModel.deletePlant(plantId);
+                String result = plantBO.deletePlant(plantId);
                 if ("Plant deleted successfully".equals(result)) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Plant Deleted").show();
@@ -143,7 +147,7 @@ public class plantController implements Initializable {
     }
 
     @FXML
-    public void btnPlantSaveOnAction(ActionEvent event) {
+    public void btnPlantSaveOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         String id = lblId.getText();
         String type = txtType.getText();
         String growthStages = txtGrowthSatges.getText();
@@ -151,27 +155,22 @@ public class plantController implements Initializable {
         int numberOfPlant = Integer.parseInt(txtNumberOfPlant.getText());
 
         PlantDto plantDto = new PlantDto(id, type, numberOfPlant, growthStages, lifeTimeDays);
-        try {
-            String result = plantModel.addPlant(plantDto);
-            boolean isSaved = result != null && result.equalsIgnoreCase("true");
-            if (!isSaved) {
-                resetPage();
-                clearInputFields();
-                loadTableData();
-                showSuccess("Customer Saved", "Customer details have been saved successfully!");
-            }
-            for (PlantTM plantTM : tblPlant.getItems()) {
-                if (plantTM.getPlantId().equals(plantDto.getPlantId())) {
-                    tblPlant.getSelectionModel().select(plantTM);
-                    tblPlant.scrollTo(plantTM);
-                    break;
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        String result = plantBO.addPlant(plantDto);
+        boolean isSaved = result != null && result.equalsIgnoreCase("true");
+        if (!isSaved) {
+            resetPage();
+            clearInputFields();
+            loadTableData();
+            showSuccess("Customer Saved", "Customer details have been saved successfully!");
         }
+        for (PlantTM plantTM : tblPlant.getItems()) {
+            if (plantTM.getPlantId().equals(plantDto.getPlantId())) {
+                tblPlant.getSelectionModel().select(plantTM);
+                tblPlant.scrollTo(plantTM);
+                break;
+            }
+        }
+
     }
 
 
@@ -183,7 +182,7 @@ public class plantController implements Initializable {
             return;
         }
         try{
-            PlantDto plant=plantModel.searchPlant(searchText);
+            PlantDto plant=plantBO.searchPlant(searchText);
             if(plant !=null){
                 ObservableList<PlantTM> plantTMS= FXCollections.observableArrayList();
                 plantTMS.add(new PlantTM(
@@ -228,7 +227,7 @@ public class plantController implements Initializable {
 
     private void loadTableData() {
         try {
-            ArrayList<PlantDto> allPlants = (ArrayList<PlantDto>) plantModel.getAllPlants();
+            ArrayList<PlantDto> allPlants = (ArrayList<PlantDto>) plantBO.getAllPlants();
 
             ObservableList<PlantTM> plantTMS = FXCollections.observableArrayList();
 
@@ -281,7 +280,7 @@ public class plantController implements Initializable {
     }
     private void loadNextId() {
         try {
-            String nextId = plantModel.getNextID();
+            String nextId = plantBO.getNextID();
             if (nextId != null) {
                 lblId.setText(nextId);
             }else{

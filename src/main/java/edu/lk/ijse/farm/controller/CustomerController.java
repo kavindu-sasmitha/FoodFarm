@@ -1,9 +1,12 @@
 package edu.lk.ijse.farm.controller;
 
+import edu.lk.ijse.farm.bo.custom.CustomerBO;
+import edu.lk.ijse.farm.bo.custom.impl.CustomerBOImpl;
+import edu.lk.ijse.farm.bo.exception.InUseException;
 import edu.lk.ijse.farm.db.DBConnection;
 import edu.lk.ijse.farm.dto.CustomerDto;
 import edu.lk.ijse.farm.dto.tm.CustomerTM;
-import edu.lk.ijse.farm.model.CustomerModel;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,6 +33,7 @@ public class CustomerController implements Initializable {
     public Button btnDelete;
     public Button btnUpdate;
     public Button btnSave;
+
     @FXML
     private Label lbSearch;
     @FXML
@@ -62,11 +66,12 @@ public class CustomerController implements Initializable {
     private TableColumn<CustomerTM,String> colEmail;
     @FXML
     private TableColumn<CustomerTM,String> colAddress;
-  
+
     @FXML
     private Label lbCustomId;
 
-    private final CustomerModel customerModel = new CustomerModel();
+  //  private final CustomerModel customerModel = new CustomerModel();
+    private final CustomerBO customerBO = new CustomerBOImpl();
 
 
     public CustomerController() throws Exception {
@@ -98,11 +103,16 @@ public class CustomerController implements Initializable {
         String address = txtAddress.getText();
 
         if (isInputValid(name,contact, email,address)) {
-            CustomerDto customerDto = new CustomerDto(customerId, name,contact, email,address);
+            CustomerDto customerDto = new CustomerDto(
+                    customerId,
+                    name,
+                    contact,
+                    email,
+                    address
+            );
 
             try {
-                String result = customerModel.saveCustomer(customerDto);
-                boolean isSaved = result != null && result.equalsIgnoreCase("true");
+                boolean isSaved = customerBO.saveCustomer(customerDto);
                 if (!isSaved) {
                     resetPage();
                     clearInputFields();
@@ -120,6 +130,7 @@ public class CustomerController implements Initializable {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                showError("Customer Save Error", "Failed to save customer.");
             }
         }
     }
@@ -133,7 +144,7 @@ public class CustomerController implements Initializable {
         }
 
         try {
-            CustomerDto customer = customerModel.searchCustomer(searchText);
+            CustomerDto customer = customerBO.searchCustomer(searchText);
             if (customer != null) {
                 ObservableList<CustomerTM> customerTMS = FXCollections.observableArrayList();
                 customerTMS.add(new CustomerTM(
@@ -199,7 +210,7 @@ public class CustomerController implements Initializable {
         if (respons.isPresent() && respons.get() == ButtonType.YES) {
             try {
                 String customerId = lbCustomId.getText();
-                String result = customerModel.deleteCustomer(customerId);
+                String result = customerBO.deleteCustomer(customerId);
                 boolean isDeleted = result != null && result.equalsIgnoreCase("Successfully Delete");
                 if (isDeleted) {
                     new Alert(Alert.AlertType.INFORMATION, "Customer Deleted").show();
@@ -228,8 +239,8 @@ public class CustomerController implements Initializable {
             CustomerDto customerDto = new CustomerDto(customerId, name, contact, email, address);
 
             try {
-                String result = customerModel.updateCustomer(customerDto);
-                boolean isUpdated = result != null && result.equalsIgnoreCase("Customer updated successfully");
+
+                boolean isUpdated = customerBO.updateCustomer(customerDto);
                 if (isUpdated) {
                     resetPage();
                     clearInputFields();
@@ -237,9 +248,6 @@ public class CustomerController implements Initializable {
                 } else {
                     showError("Update Failed", "Failed to update customer details.");
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                showError("Database Error", "Unable to update customer details due to a database error.");
             } catch (Exception e) {
                 e.printStackTrace();
                 showError("Error", "An unexpected error occurred.\nPlease contact support.");
@@ -287,23 +295,23 @@ public class CustomerController implements Initializable {
 
     private void loadNextId() {
         try {
-            String nextId = customerModel.getNextID();
-            if (nextId != null) {
+            String nextId = customerBO.getNextID();
+            if (nextId != null && !nextId.isEmpty()) {
                 lbCustomId.setText(nextId);
-            }else{
-                System.out.println("No customer id found");
+            } else {
+                System.err.println("No customer ID found or empty response.");
             }
-
-
         } catch (Exception e) {
-            showError("Error", "Failed to load the next customer ID.");
+            showError("Error", "Failed to load the next customer ID.\n" + e.getMessage());
+            e.printStackTrace(); // Optional: helpful during debugging
         }
     }
 
 
+
     private void loadTableData() {
         try {
-            ArrayList<CustomerDto> allCustomers = customerModel.getAllCustomers();
+            ArrayList<CustomerDto> allCustomers = customerBO.getAllCustomers();
 
             ObservableList<CustomerTM> customerTMS = FXCollections.observableArrayList();
 

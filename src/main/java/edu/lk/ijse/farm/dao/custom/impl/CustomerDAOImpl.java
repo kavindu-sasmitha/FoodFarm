@@ -3,7 +3,7 @@ package edu.lk.ijse.farm.dao.custom.impl;
 import edu.lk.ijse.farm.dao.SQlUtil;
 import edu.lk.ijse.farm.dao.custom.CustomerDAO;
 import edu.lk.ijse.farm.entity.CustomerEntity;
-import edu.lk.ijse.farm.entity.SupplierEntity;
+import edu.lk.ijse.farm.entity.EmployeeEntity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -64,6 +64,8 @@ public class CustomerDAOImpl implements CustomerDAO {
                 customerEntity.getCustomerId());
     }
 
+
+
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
         return SQlUtil.execute("DELETE FROM Customer WHERE Customer_Id=?",id);
@@ -71,17 +73,13 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public String getNextID() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = SQlUtil.execute("SELECT Supplier_Id FROM Supplier ORDER BY customer_id DESC LIMIT 1");
+        ResultSet resultSet = SQlUtil.execute("SELECT Customer_Id FROM Customer ORDER BY customer_id DESC LIMIT 1");
         char tableChar = 'C';
         if (resultSet.next()) {
             String lastId = resultSet.getString(1);
-            String lastIdNumberString = lastId.substring(1);
-            int lastIdNumber = Integer.parseInt(lastIdNumberString);
-            int nextIdNumber = lastIdNumber + 1;
-            String nextIdString = String.format(tableChar + "%03d", nextIdNumber);
-            return nextIdString;
+           return lastId ;
         }
-        return tableChar + "001";
+        return null;
     }
 
     @Override
@@ -104,5 +102,20 @@ public class CustomerDAOImpl implements CustomerDAO {
             list.add(customerEntity);
         }
         return list;
+    }
+
+    @Override
+    public Optional<CustomerEntity> findById(String customerId) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = SQlUtil.execute("SELECT * FROM Customer WHERE Customer_Id = ?",customerId);
+        if (resultSet.next()) {
+            return Optional.of(new CustomerEntity(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5)
+            ));
+        }
+        return Optional.empty();
     }
 }

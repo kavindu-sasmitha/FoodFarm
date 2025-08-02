@@ -2,6 +2,8 @@ package edu.lk.ijse.farm.dao.custom.impl;
 
 import edu.lk.ijse.farm.dao.SQlUtil;
 import edu.lk.ijse.farm.dao.custom.UserDAO;
+import edu.lk.ijse.farm.entity.CustomerEntity;
+import edu.lk.ijse.farm.entity.EmployeeEntity;
 import edu.lk.ijse.farm.entity.UserEntity;
 
 import java.sql.SQLException;
@@ -36,7 +38,6 @@ public class UserDAOImpl implements UserDAO {
                 userEntity.getUserEmail(),
                 userEntity.getUserId());
     }
-    
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {

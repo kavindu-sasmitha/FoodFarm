@@ -1,13 +1,16 @@
 package edu.lk.ijse.farm.controller;
 
 
+import edu.lk.ijse.farm.bo.BOFactory;
+import edu.lk.ijse.farm.bo.BOTypes;
+import edu.lk.ijse.farm.bo.custom.CustomerBO;
+import edu.lk.ijse.farm.bo.custom.ItemBO;
+import edu.lk.ijse.farm.bo.custom.OrderBO;
 import edu.lk.ijse.farm.dto.ItemDto;
 import edu.lk.ijse.farm.dto.OrderDetailDto;
 import edu.lk.ijse.farm.dto.OrderDto;
 import edu.lk.ijse.farm.dto.tm.CartTm;
-import edu.lk.ijse.farm.model.CustomerModel;
-import edu.lk.ijse.farm.model.ItemModel;
-import edu.lk.ijse.farm.model.OrderModel;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -81,9 +84,12 @@ public class OrderController implements Initializable {
     @FXML
     private ComboBox<String> cmbPaymentMethod;
 
-    private final OrderModel orderModel = new OrderModel();
-    private final CustomerModel customerModel = new CustomerModel();
-    private final ItemModel itemModel = new ItemModel();
+    //private final OrderModel orderModel = new OrderModel();
+    private final CustomerBO customerBO=BOFactory.getInstance().getBO(BOTypes.CUSTOMERBO);
+    //private final CustomerModel customerModel = new CustomerModel();
+    private final ItemBO itemBO=BOFactory.getInstance().getBO(BOTypes.ITEMBO);
+    //private final ItemModel itemModel = new ItemModel();
+    private final OrderBO orderBO= BOFactory.getInstance().getBO(BOTypes.ORDERBO);
 
     private final ObservableList<CartTm> cartData = FXCollections.observableArrayList();
 
@@ -221,7 +227,8 @@ public class OrderController implements Initializable {
                     cartList
             );
 
-            boolean isPlaced = orderModel.placeOrder(orderDTO);
+           // boolean isPlaced = orderModel.placeOrder(orderDTO);
+            boolean isPlaced=orderBO.placeOrder(orderDTO);
 
             if (isPlaced) {
                 resetPage();
@@ -261,44 +268,34 @@ public class OrderController implements Initializable {
 
     @FXML
     void cmbCustomerOnAction(ActionEvent event) {
-        try {
-            String selectedCustomerContact = txtCustomerContact.getText();
-            if (selectedCustomerContact != null) {
-                String name = customerModel.findNameByContact(selectedCustomerContact);
-                lblCustomerName.setText(name);
-            } else {
-                lblCustomerName.setText("");
-            }
-        } catch (SQLException | ClassNotFoundException e) {
-            showAlert(Alert.AlertType.ERROR, "Error loading customer name: " + e.getMessage());
-            e.printStackTrace();
+        String selectedCustomerContact = txtCustomerContact.getText();
+        if (selectedCustomerContact != null) {
+            String name = orderBO.findNameByContact(selectedCustomerContact);
+            lblCustomerName.setText(name);
+        } else {
+            lblCustomerName.setText("");
         }
     }
 
     @FXML
-    void cmbItemOnAction(ActionEvent event) {
-        try {
-            String selectedItemId = cmbItemId.getSelectionModel().getSelectedItem();
-            if (selectedItemId != null) {
-                ItemDto itemDto = itemModel.findById(selectedItemId);
+    void cmbItemOnAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+        String selectedItemId = cmbItemId.getSelectionModel().getSelectedItem();
+        if (selectedItemId != null) {
+            ItemDto itemDto = itemBO.findById(selectedItemId);
 
-                if (itemDto != null) {
-                    lblItemName.setText(itemDto.getItemName());
-                    lblItemQty.setText(String.valueOf(itemDto.getQtyOnHand()));
-                    lblItemPrice.setText(String.valueOf(itemDto.getUnitPrice()));
-                } else {
-                    lblItemName.setText("");
-                    lblItemQty.setText("");
-                    lblItemPrice.setText("");
-                }
+            if (itemDto != null) {
+                lblItemName.setText(itemDto.getItemName());
+                lblItemQty.setText(String.valueOf(itemDto.getQtyOnHand()));
+                lblItemPrice.setText(String.valueOf(itemDto.getUnitPrice()));
             } else {
                 lblItemName.setText("");
                 lblItemQty.setText("");
                 lblItemPrice.setText("");
             }
-        } catch (SQLException | ClassNotFoundException e) {
-            showAlert(Alert.AlertType.ERROR, "Error loading item details: " + e.getMessage());
-            e.printStackTrace();
+        } else {
+            lblItemName.setText("");
+            lblItemQty.setText("");
+            lblItemPrice.setText("");
         }
     }
 
@@ -333,7 +330,7 @@ public class OrderController implements Initializable {
     }
 
     public void resetPage() throws SQLException, ClassNotFoundException {
-        lblOrderId.setText(orderModel.getNextOrderId());
+        lblOrderId.setText(OrderBO.getNextOrderId());
         orderDate.setText(LocalDate.now().toString());
         loadItemIds();
     }
@@ -341,7 +338,7 @@ public class OrderController implements Initializable {
 
 
     private void loadItemIds() throws SQLException, ClassNotFoundException {
-        ArrayList<String> itemIdsList = itemModel.getAllItemIds();
+        ArrayList<String> itemIdsList = itemBO.getAllItemIds();
         ObservableList<String> itemIds = FXCollections.observableArrayList(itemIdsList);
         cmbItemId.setItems(itemIds);
     }
@@ -363,9 +360,9 @@ public class OrderController implements Initializable {
     public void btnSearchOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         String searchText = txtCustomerContact.getText();
        try{
-           boolean isFindContact= Boolean.parseBoolean(customerModel.findNameByContact(searchText));
+           boolean isFindContact= Boolean.parseBoolean(customerBO.findNameByContact(searchText));
            if(!isFindContact){
-               lblCustomerName.setText(customerModel.findNameByContact(searchText));
+               lblCustomerName.setText(customerBO.findNameByContact(searchText));
            }else{
               lblCustomerName.setText("New Customer");
            }
