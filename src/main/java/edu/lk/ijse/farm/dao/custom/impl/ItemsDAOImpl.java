@@ -23,11 +23,11 @@ public class ItemsDAOImpl implements ItemsDAO {
 
     @Override
     public List<ItemsEntity> getAll() throws SQLException, ClassNotFoundException {
-        ResultSet rst=SQlUtil.execute("SELECT * FROM items");
+        ResultSet rst=SQlUtil.execute("select * from items");
         List<ItemsEntity> list=new ArrayList<>();
         while(rst.next()){
             ItemsEntity itemsEntity=new ItemsEntity(
-                    rst.getString(1),
+                   rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
                     rst.getString(4),
@@ -68,7 +68,7 @@ public class ItemsDAOImpl implements ItemsDAO {
 
     @Override
     public boolean update(ItemsEntity itemsEntity) throws SQLException, ClassNotFoundException {
-        return SQlUtil.execute("UPDATE Items SET Item_Name = ?,Manufacture_Date = ?,Expire_Date = ?,Price_Per_Unite = ?,Quantity = ? WHERE Item_Id = ?",
+        return SQlUtil.execute("UPDATE Items SET Item_Name =?,Manufacture_Date =?,Expire_Date = ?,Price_Per_Unite = ?,Quantity = ? WHERE Item_Id = ?",
                 itemsEntity.getItemName(),
                 itemsEntity.getManufactureDate(),
                 itemsEntity.getExpireDate(),
@@ -85,15 +85,16 @@ public class ItemsDAOImpl implements ItemsDAO {
 
     @Override
     public String getNextID() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet =SQlUtil.execute("SELECT Item_Id FROM Items ORDER BY Items_Id DESC LIMIT 1");
+        ResultSet resultSet = SQlUtil.execute("select Item_Id from Items order by Item_Id desc limit 1");
         char tableChar = 'I';
         if (resultSet.next()) {
             String lastId = resultSet.getString(1);
-            String lastIdNumberString = lastId.substring(1);
-            int lastIdNumber = Integer.parseInt(lastIdNumberString);
-            int nextIdNumber = lastIdNumber + 1;
-            String nextIdString = String.format(tableChar + "%03d", nextIdNumber);
-            return nextIdString;
+            if (lastId != null && lastId.matches("I\\d{3}")) {
+                String lastIdNumberString = lastId.substring(1);
+                int lastIdNumber = Integer.parseInt(lastIdNumberString);
+                int nextIdNumber = lastIdNumber + 1;
+                return tableChar + String.format("%03d", nextIdNumber);
+            }
         }
         return tableChar + "001";
     }
@@ -101,6 +102,7 @@ public class ItemsDAOImpl implements ItemsDAO {
     @Override
     public List<ItemsEntity> search(String keyword) throws SQLException, ClassNotFoundException {
         ResultSet rst = SQlUtil.execute("SELECT * FROM Items WHERE Item_Id LIKE ? OR Item_Name LIKE ? OR Manufacture_Date LIKE ? OR Expire_Date LIKE ? OR Price_Per_Unite LIKE ? OR Quantity LIKE ?",
+                "%" + keyword + "%",
                 "%" + keyword + "%",
                 "%" + keyword + "%",
                 "%" + keyword + "%",

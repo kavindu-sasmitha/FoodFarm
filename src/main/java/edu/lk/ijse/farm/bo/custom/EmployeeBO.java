@@ -1,11 +1,12 @@
 package edu.lk.ijse.farm.bo.custom;
 
+import edu.lk.ijse.farm.bo.SuperBO;
 import edu.lk.ijse.farm.dto.EmployeeDto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface EmployeeBO {
+public interface EmployeeBO extends SuperBO {
     String pdateEmployee(EmployeeDto employeeDto) throws SQLException, ClassNotFoundException;
 
     String saveEmployee(EmployeeDto employeeDto) throws SQLException, ClassNotFoundException;

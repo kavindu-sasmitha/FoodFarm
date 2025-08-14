@@ -18,20 +18,17 @@ public class BOFactory {
     }
     public<T extends SuperBO>T getBO(BOTypes boType) {
         switch (boType) {
+            case ADDSALARYBO:return (T)new AddSalaryBOImpl();
             case SUPPLIERBO:return (T)new SupplierBOImpl();
             case CUSTOMERBO:return (T)new CustomerBOImpl();
             case ITEMBO:return (T)new ItemBOImpl();
             case PLANTBO:return (T)new PlantBOImpl();
             case ORDERBO:return (T)new OrderBOImpl();
             case LOGINBO:return (T)new LoginBOImpl();
+            case EMPLOYEEBO:return (T)new EmployeeBOImpl();
+            case USERBO:return (T)new UserBOImpl();
+            case ORDERDEATAILS:return (T)new OrderDetailsBOImpl();
             default:return null;
-//            case CUSTOMERBO :return (T) new CustomerBOImpl();
-//            case ITEMBO:return (T)new ItemBOImpl();
-//            case ORDERBO :return(T) new PlaceOrderBOImpl();
-//            default :return null;
-
         }
     }
-
-
-    }
+}

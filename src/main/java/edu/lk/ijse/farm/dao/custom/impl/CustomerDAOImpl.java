@@ -31,7 +31,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public Optional<CustomerEntity> getById(String id) throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = SQlUtil.execute("SELECT * FROM Customer WHERE Customer_Id = ?", id);
+        ResultSet resultSet = SQlUtil.execute("SELECT * FROM Customer WHERE Customer_Id =?", id);
         if (resultSet.next()) {
             return Optional.of(new CustomerEntity(
                     resultSet.getString(1),
@@ -84,7 +84,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public List<CustomerEntity> search(String keyword) throws SQLException, ClassNotFoundException {
-        ResultSet rst = SQlUtil.execute("SELECT * FROM Customer WHERE Customer_Id LIKE ? OR Customer_Name LIKE ? OR Contact_Number LIKE ? OR Email LIKE ?",
+        ResultSet rst = SQlUtil.execute("SELECT * FROM Customer WHERE Customer_Id LIKE ? OR Customer_Name LIKE ? OR Contact_Number LIKE ? OR Email LIKE ? OR Address LIKE ?",
                 "%" + keyword + "%",
                 "%" + keyword + "%",
                 "%" + keyword + "%",
@@ -106,7 +106,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public Optional<CustomerEntity> findById(String customerId) throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = SQlUtil.execute("SELECT * FROM Customer WHERE Customer_Id = ?",customerId);
+        ResultSet resultSet = SQlUtil.execute("SELECT * FROM Customer WHERE Contact_Number = ?",customerId);
         if (resultSet.next()) {
             return Optional.of(new CustomerEntity(
                     resultSet.getString(1),

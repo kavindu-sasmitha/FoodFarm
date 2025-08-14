@@ -11,7 +11,7 @@ public class ItemsEntity {
     private String itemId;
     private String itemName;
     private String manufactureDate;
-    private String ExpireDate;
+    private String expireDate;
     private double unitePrice;
     private int quantity;
 }

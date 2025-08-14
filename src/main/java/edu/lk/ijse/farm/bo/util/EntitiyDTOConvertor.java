@@ -46,12 +46,12 @@ public class EntitiyDTOConvertor {
 
     public ItemDto getIemDto(ItemsEntity itemsEntity) {
         ItemDto itemDto = new ItemDto();
-        itemDto.setItemCode(itemDto.getItemCode());
-        itemDto.setItemName(itemDto.getItemName());
-        itemDto.setManufactureDate(itemDto.getManufactureDate());
-        itemDto.setExpireDate(itemDto.getExpireDate());
-        itemDto.setUnitPrice(itemDto.getUnitPrice());
-        itemDto.setQtyOnHand(itemDto.getQtyOnHand());
+        itemDto.setItemCode(itemsEntity.getItemId());
+        itemDto.setItemName(itemsEntity.getItemName());
+        itemDto.setManufactureDate(itemsEntity.getManufactureDate());
+        itemDto.setExpireDate(itemsEntity.getExpireDate());
+        itemDto.setUnitPrice(itemsEntity.getUnitePrice());
+        itemDto.setQtyOnHand(itemsEntity.getQuantity());
         return itemDto;
     }
     public ItemsEntity getItemsEntity(ItemDto dto) {

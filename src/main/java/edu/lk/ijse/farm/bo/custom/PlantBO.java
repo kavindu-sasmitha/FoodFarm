@@ -1,10 +1,11 @@
 package edu.lk.ijse.farm.bo.custom;
 
+import edu.lk.ijse.farm.bo.SuperBO;
 import edu.lk.ijse.farm.dto.PlantDto;
 
 import java.sql.SQLException;
 
-public interface PlantBO {
+public interface PlantBO extends SuperBO {
     String updatePlant(PlantDto plantDto) throws SQLException, ClassNotFoundException;
 
     String deletePlant(String plantId) throws SQLException, ClassNotFoundException;

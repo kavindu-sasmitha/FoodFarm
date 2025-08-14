@@ -1,12 +1,13 @@
 package edu.lk.ijse.farm.bo.custom;
 
+import edu.lk.ijse.farm.bo.SuperBO;
 import edu.lk.ijse.farm.dto.OrderDetailDto;
 import edu.lk.ijse.farm.dto.tm.OrderDetailsTM;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
-public interface OrderDetailsBO {
+public interface OrderDetailsBO extends SuperBO {
     static ArrayList<OrderDetailDto> getAllOrders() {
         ArrayList<OrderDetailDto> allOrders = new ArrayList<>();
         return allOrders;

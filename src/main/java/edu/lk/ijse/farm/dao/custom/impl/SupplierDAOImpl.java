@@ -74,7 +74,7 @@ public class SupplierDAOImpl implements SupplierDAO {
 
     @Override
     public String getNextID() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet =SQlUtil.execute("SELECT Supplier_Id FROM Supplier ORDER BY customer_id DESC LIMIT 1");
+        ResultSet resultSet =SQlUtil.execute("SELECT Supplier_Id FROM Supplier ORDER BY Supplier_Id DESC LIMIT 1");
         char tableChar = 'S';
         if (resultSet.next()) {
             String lastId = resultSet.getString(1);

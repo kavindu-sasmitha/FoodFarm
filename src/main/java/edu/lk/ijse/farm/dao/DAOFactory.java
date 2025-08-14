@@ -14,11 +14,12 @@ public class DAOFactory {
     }
     public <T extends SuperDAO>T getDAO(DAOType daoType){
         switch(daoType){
+            case ADDSALARYDAO:return (T) new AddSalaryDAOImpl();
             case CUSTOMERDAO :return (T) new CustomerDAOImpl();
             case EMPLOYEEDAO:return (T) new EmployeeDAOImpl();
             case ITEMSDAO:return (T)new ItemsDAOImpl();
             case LOGINDAO:return (T)new LoginDAOImpl();
-            case ORDEDAO:return (T)new LoginDAOImpl();
+            case ORDEDAO:return (T)new OrderDAOImpl();
             case ORDERDETAILSDAO:return (T) new OrderDetailsDAOImpl();
             case PLANTDAO:return (T) new PlantDAOImpl();
             case SUPPLIERDAO:return (T) new SupplierDAOImpl();

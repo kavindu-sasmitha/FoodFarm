@@ -99,7 +99,6 @@ public class EmployeeManageController implements Initializable {
 
 
     private void resetPage() {
-        txtContact.clear();
         txtDate.clear();
         txtEmail.clear();
         txtName.clear();
@@ -122,7 +121,6 @@ public class EmployeeManageController implements Initializable {
         btnUpdate.setDisable(true);
         lblId.setText("");
         txtName.clear();
-        txtContact.clear();
         txtDate.clear();
         loadNextId();
     }
@@ -159,21 +157,21 @@ public class EmployeeManageController implements Initializable {
     public void btnEmpSaveOnAction(ActionEvent actionEvent) {
         String employeeId = lblId.getText();
         String name = txtName.getText();
-        String contact = txtContact.getText();
-        String date = LocalDate.now().toString();
+        String contact = txtDate.getText();
+        String date =LocalDate.now().toString();
         String email = txtEmail.getText();
         String position = txtPosition.getText();
         if (isInputValid(name, contact, email, date)) {
             EmployeeDto employeeDto = new EmployeeDto(employeeId, name, contact, date, email, position);
 
             try {
-                String result = employeeBO.saveEmployee(employeeDto);
-                if ("Employee added successfully".equalsIgnoreCase(result)) {
+                boolean result = Boolean.parseBoolean(employeeBO.saveEmployee(employeeDto));
+                if (!result) {
                     resetPage();
                     loadTableData();
                     new Alert(Alert.AlertType.INFORMATION, "Employee Saved").show();
                 } else {
-                    showError("Save Failed", "Failed to save employee details.");
+//                    showError("Save Failed", "Failed to save employee details.");
                 }
             } catch (Exception e) {
                 showError("Database Error", "Unable to save employee details due to a database error.");

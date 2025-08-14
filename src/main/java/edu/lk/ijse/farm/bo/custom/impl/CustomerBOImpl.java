@@ -33,7 +33,7 @@ public class CustomerBOImpl implements CustomerBO {
     @Override
     public CustomerDto searchCustomer(String searchText) throws SQLException, ClassNotFoundException {
         List<CustomerEntity> result = customerDAO.search(searchText);
-        if (!result.isEmpty()) {
+        if (result.isEmpty()) {
             return convertor.getCustomerDTO(result.get(0));
         }
         throw new NotFoundException("No customer found for keyword: " + searchText);

@@ -60,7 +60,7 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public boolean save(OrdersEntity ordersEntity) throws SQLException, ClassNotFoundException {
         return SQlUtil.execute(
-                "INSERT INTO orders (Order_Id, Order_Date, Total_Amount, Customer_Id, Order_States) VALUES (?, ?, ?, ?, ?)",
+                "INSERT INTO Orders (Order_Id, Order_Date, Total_Amount, Customer_Id, Order_States) VALUES (?, ?, ?, ?, ?)",
                 ordersEntity.getOrderId(),
                 ordersEntity.getOrderDate(),
                 ordersEntity.getTotalPrice(),

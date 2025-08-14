@@ -10,8 +10,19 @@ module edu.lk.ijse.farm {
 
 
     opens edu.lk.ijse.farm.controller to javafx.fxml;
-    exports edu.lk.ijse.farm.controller;
+
+
     exports edu.lk.ijse.farm.dto;
+    exports edu.lk.ijse.farm.entity;
+    exports edu.lk.ijse.farm.bo;
+    exports edu.lk.ijse.farm.bo.custom;
+    exports edu.lk.ijse.farm.bo.custom.impl;
+
+    opens edu.lk.ijse.farm.bo to javafx.base;
+    opens edu.lk.ijse.farm.bo.custom to javafx.base;
+    opens edu.lk.ijse.farm.bo.custom.impl to javafx.base;
+
+
     exports edu.lk.ijse.farm;
     opens edu.lk.ijse.farm.dto to javafx.base;
     opens edu.lk.ijse.farm.dto.tm to javafx.base;
@@ -20,6 +31,7 @@ module edu.lk.ijse.farm {
     //exports edu.lk.ijse.farm.util;
     exports edu.lk.ijse.farm.dto.tm;
     exports edu.lk.ijse.farm.dao;
+
     opens edu.lk.ijse.farm.dao to javafx.base;
 
 

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class OrderDetailsController implements Initializable {
-    private final OrderDetailsBO orderDetailsBO= BOFactory.getInstance().getBO(BOTypes.ORDERDETAILSBO);
+    private final OrderDetailsBO orderDetailsBO= BOFactory.getInstance().getBO(BOTypes.ORDERDEATAILS);
 
     @FXML
     private TableColumn<OrderDetailsTM, String> colCustomerId;

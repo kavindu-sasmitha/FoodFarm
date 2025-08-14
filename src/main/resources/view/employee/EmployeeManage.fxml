@@ -67,17 +67,18 @@
                               <Font name="Segoe UI Semibold" size="13.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtContact" promptText="0772312420" style="-fx-background-color: #fff; -fx-border-color: #ced4da; -fx-border-radius: 4; -fx-padding: 5;" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtDate" promptText="0772312420" style="-fx-background-color: #fff; -fx-border-color: #ced4da; -fx-border-radius: 4; -fx-padding: 5;" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="110.0" prefWidth="200.0" spacing="10">
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="110.0" prefWidth="200.0" spacing="10" />
+                  <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10">
                      <children>
-                        <Label fx:id="lbMFD" prefWidth="150.0" text="Join Date">
+                        <Label fx:id="lbPrice1" prefWidth="150.0" text="Join Date">
                            <font>
                               <Font name="Segoe UI Semibold" size="13.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtDate" promptText="2024-09-27" style="-fx-background-color: #fff; -fx-border-color: #ced4da; -fx-border-radius: 4; -fx-padding: 5;" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtContact1" promptText="12-09-2025" style="-fx-background-color: #fff; -fx-border-color: #ced4da; -fx-border-radius: 4; -fx-padding: 5;" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10">
@@ -133,9 +134,9 @@
                   <TableColumn fx:id="colId" prefWidth="75.0" style="-fx-font-size: 13; -fx-font-family: 'Segoe UI Semibold';" text="Employee Id" />
                   <TableColumn fx:id="colName" prefWidth="140.0" style="-fx-font-size: 13; -fx-font-family: 'Segoe UI Semibold';" text="Employee Name" />
                   <TableColumn fx:id="colContact" prefWidth="163.0" style="-fx-font-size: 13; -fx-font-family: 'Segoe UI Semibold';" text="Contact" />
-                  <TableColumn fx:id="colJoinDate" prefWidth="241.5" style="-fx-font-size: 13; -fx-font-family: 'Segoe UI Semibold';" text="Join Date" />
                   <TableColumn fx:id="colEmail" minWidth="0.0" prefWidth="281.0" style="-fx-font-size: 13; -fx-font-family: 'Segoe UI Semibold';" text="Email" />
                   <TableColumn fx:id="colPosition" prefWidth="168.5" style="-fx-font-size: 13; -fx-font-family: 'Segoe UI Semibold';" text="Position" />
+                  <TableColumn fx:id="colJoinDate" prefWidth="163.0" style="-fx-font-size: 13; -fx-font-family: 'Segoe UI Semibold';" text="Join Date" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

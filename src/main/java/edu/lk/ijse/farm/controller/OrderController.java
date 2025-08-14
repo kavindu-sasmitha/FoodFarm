@@ -35,7 +35,7 @@ import java.util.ResourceBundle;
 public class OrderController implements Initializable {
 
     public TextField txtCustomerContact;
-    
+
 
     @FXML
     private ComboBox<String> cmbItemId;
@@ -226,7 +226,6 @@ public class OrderController implements Initializable {
                     "Pending",
                     cartList
             );
-
            // boolean isPlaced = orderModel.placeOrder(orderDTO);
             boolean isPlaced=orderBO.placeOrder(orderDTO);
 
@@ -330,7 +329,7 @@ public class OrderController implements Initializable {
     }
 
     public void resetPage() throws SQLException, ClassNotFoundException {
-        lblOrderId.setText(OrderBO.getNextOrderId());
+        lblOrderId.setText(orderBO.getNextOrderId());
         orderDate.setText(LocalDate.now().toString());
         loadItemIds();
     }
@@ -359,19 +358,18 @@ public class OrderController implements Initializable {
 
     public void btnSearchOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         String searchText = txtCustomerContact.getText();
-       try{
-           boolean isFindContact= Boolean.parseBoolean(customerBO.findNameByContact(searchText));
-           if(!isFindContact){
-               lblCustomerName.setText(customerBO.findNameByContact(searchText));
-           }else{
-              lblCustomerName.setText("New Customer");
-           }
-       }catch (Exception e){
-           showAlert(Alert.AlertType.ERROR,"Invalid Customer Contact");
-           txtCustomerContact.setText("");
-           lblCustomerName.setText("");
-           e.printStackTrace();
-       }
+        if (searchText == null || searchText.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Please enter a customer contact");
+            return;
+        }
+
+        try {
+            String customerName = customerBO.findNameByContact(searchText);
+            lblCustomerName.setText(customerName);
+        } catch (Exception e) {
+            lblCustomerName.setText("New Customer");
+            e.printStackTrace();
+        }
     }
 
 

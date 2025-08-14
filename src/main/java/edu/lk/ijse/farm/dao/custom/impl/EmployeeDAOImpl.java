@@ -77,7 +77,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public String getNextID() throws SQLException, ClassNotFoundException {
-        ResultSet resultSet =SQlUtil.execute("SELECT Supplier_Id FROM Supplier ORDER BY customer_id DESC LIMIT 1");
+        ResultSet resultSet =SQlUtil.execute("SELECT Employee_Id FROM Employee ORDER BY Employee_Id DESC LIMIT 1");
         char tableChar = 'E';
         if (resultSet.next()) {
             String lastId = resultSet.getString(1);

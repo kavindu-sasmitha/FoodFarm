@@ -33,6 +33,7 @@ public class ItemController implements Initializable {
     public TableColumn colCode;
     public TableColumn colQuentity;
     public Label lblId;
+    public Label lbId;
 
     @FXML
     private Label lbSearch;
@@ -80,7 +81,6 @@ public class ItemController implements Initializable {
         colPrice.setCellValueFactory(new PropertyValueFactory<>("pricePerUnit"));
         colQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        loadTableData();
         try {
             loadNextId();
             loadTableData();
@@ -223,7 +223,7 @@ public class ItemController implements Initializable {
         try {
             ArrayList<ItemDto> allItems = itemBO.getAllItems();
             ObservableList<ItemTm> itemTMS = FXCollections.observableArrayList();
-            
+
 
             for (ItemDto itemDto : allItems) {
                 ItemTm itemTM = new ItemTm(
@@ -267,7 +267,7 @@ public class ItemController implements Initializable {
                         itemDto.getExpireDate(),
                         String.valueOf(itemDto.getUnitPrice()),
                         String.valueOf(itemDto.getQtyOnHand())
-                       
+
                 ));
                 tblItem.setItems(itemTMS);
             } else {
@@ -286,8 +286,6 @@ public class ItemController implements Initializable {
     }
 
     private void resetPage() {
-        loadNextId();
-        loadTableData();
         btnSave.setDisable(false);
         btnDelete.setDisable(true);
         btnUpdate.setDisable(true);
@@ -303,7 +301,7 @@ public class ItemController implements Initializable {
     }
     private void loadNextId() {
         try {
-            CustomerBO itemModel;
+
             String nextId = itemBO.getNextID();
             if (nextId != null) {
                 lblId.setText(nextId);

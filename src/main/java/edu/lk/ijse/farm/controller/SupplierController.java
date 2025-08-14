@@ -299,8 +299,8 @@ public class SupplierController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         colId.setCellValueFactory(new PropertyValueFactory<SupplierTM, String>("supplierId"));
         colName.setCellValueFactory(new PropertyValueFactory<SupplierTM, String>("name"));
-        colContact.setCellValueFactory(new PropertyValueFactory<SupplierTM, String>("contact"));
-        colAddress.setCellValueFactory(new PropertyValueFactory<SupplierTM, String>("address"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<SupplierTM, String>("contact"));
+        colContact.setCellValueFactory(new PropertyValueFactory<SupplierTM, String>("address"));
         colItem.setCellValueFactory(new PropertyValueFactory<SupplierTM, String>("items"));
 
         try {

@@ -113,7 +113,7 @@ public class CustomerController implements Initializable {
 
             try {
                 boolean isSaved = customerBO.saveCustomer(customerDto);
-                if (!isSaved) {
+                if (isSaved) {
                     resetPage();
                     clearInputFields();
                     loadTableData();
@@ -212,7 +212,7 @@ public class CustomerController implements Initializable {
                 String customerId = lbCustomId.getText();
                 String result = customerBO.deleteCustomer(customerId);
                 boolean isDeleted = result != null && result.equalsIgnoreCase("Successfully Delete");
-                if (isDeleted) {
+                if (!isDeleted) {
                     new Alert(Alert.AlertType.INFORMATION, "Customer Deleted").show();
                     resetPage();
                     loadTableData();

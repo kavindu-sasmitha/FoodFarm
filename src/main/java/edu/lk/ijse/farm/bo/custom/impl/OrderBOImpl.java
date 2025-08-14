@@ -26,6 +26,11 @@ public class OrderBOImpl implements OrderBO {
     private final CustomerDAO customerDAO = DAOFactory.getInstance().getDAO(DAOType.CUSTOMERDAO);
 
     @Override
+    public String getNextOrderId() throws SQLException, ClassNotFoundException {
+        return orderDAO.getNextID();
+    }
+
+    @Override
     public String findNameByContact(String selectedCustomerContact) {
         // Placeholder, assuming implementation is pending
         return "";
@@ -58,14 +63,15 @@ public class OrderBOImpl implements OrderBO {
                     return true;
                 }
             }
+            connection.rollback();
+            return false;
         } catch (Exception e) {
+            e.printStackTrace();
             connection.rollback();
             return false;
         } finally {
             connection.setAutoCommit(true);
         }
-
-        return false;
     }
 
     private boolean saveDetailsAndUpdateItem(ArrayList<OrderDetailDto> orderDetailsList) throws SQLException, ClassNotFoundException {

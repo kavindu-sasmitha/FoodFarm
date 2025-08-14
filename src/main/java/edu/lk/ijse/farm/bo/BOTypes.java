@@ -1,11 +1,12 @@
 package edu.lk.ijse.farm.bo;
 
 public enum BOTypes {
+    ADDSALARYBO,
     CUSTOMERBO,
     EMPLOYEEBO,
     ITEMBO,
     LOGINBO,
     ORDERBO,
     SUPPLIERBO,
-    USERBO, ORDERDETAILSBO, PLANTBO
+    USERBO, ORDERDEATAILS, PLANTBO
 }
